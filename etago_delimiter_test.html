@@ -8,7 +8,7 @@
   <body>
     <p>As per HTML 4.01, <em>the first occurrence of the character sequence "&lt;/" (end-tag open delimiter) is treated as terminating the end of SCRIPT element's content</em>.</p>
     <p>This means that something like <code>document.write('&lt;p&gt;foo&lt;/p&gt;')</code> should not work, but something like <code>document.write('&lt;p&gt;foo&lt;'+'/p&gt;')</code> should.</p>
-    <p>But which browsers actually respect this? If textarea below is displayed with "test" in it, browser does NOT respect "&lt;/" as terminating sequence.</p>
+    <p>But which browsers actually respect this? It seems like de-facto standard is "&lt;/script" sequence, not just "&lt;/". If textarea below is displayed with "test" in it, browser does NOT respect "&lt;/" as terminating sequence.</p>
     <script type="text/javascript">
       document.write('<textarea>test</textarea>');
     </script>
