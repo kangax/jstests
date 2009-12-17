@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Undeclared assignment throws in IE, when identifier corresponds to element name/id</title>
+  </head>
+  <body>
+    <p id="foo"></p>
+    <form name="bar" action=""><p></p></form>
+    <script type="text/javascript">
+      try {
+        foo = 1;
+      } 
+      catch(e) {
+        document.write(e + '<br>');
+      }
+      try {
+        bar = 1;
+      } 
+      catch(e) {
+        document.write(e + '<br>');
+      }
+    </script>
+  </body>
+</html>
