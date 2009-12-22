@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p style="font-size:1.5em;font-weight:bold;">Testing performance of native <code>Array.isArray</code> vs custom implementation <br>(i.e. <code>Object.prototype.toString.call === "[object Array]"</code>)</p>
+    <script type="text/javascript">
+      (function(){
+        
+        if (!Array.isArray) {
+          return document.write('No `Array.isArray` detected');
+        }
+        
+        function customIsArray(o) {
+          return toString.call(o) === '[object Array]';
+        }
+        function getAverage(values) {
+          var sum = 0;
+          for (var i = values.length; i--; ) { 
+            sum += values[i]; 
+          } 
+          return sum / values.length;
+        }
+        
+        var arr = [ ], 
+            nonArr = { }, 
+            toString = Object.prototype.toString,
+            lim = 50000,  
+            tries = 10,
+            t,
+            results = [ ];
+            
+        results.length = 0;
+        for (var j = tries; j--; ) {
+          t = new Date();
+          for (var i = lim; i--; ) { 
+            Array.isArray(arr); 
+            Array.isArray(nonArr); 
+          }
+          results.push(new Date() - t);
+        }
+        var average1 = getAverage(results);
+        
+        results.length = 0;
+        for (var j = tries; j--; ) {
+          t = new Date();
+          for (var i = lim; i--; ) { 
+            customIsArray(arr); 
+            customIsArray(nonArr);
+          }
+          results.push(new Date() - t);
+        }
+        var average2 = getAverage(results);
+        
+        document.write('Average of ' + tries + ' tries, ran ' + lim + ' times each <br><br>' + 
+          ' native: ' + average1 + 'ms; custom: ' + average2 + 'ms');
+      })();
+    </script>
+  </body>
+</html>
