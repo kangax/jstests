@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<!-- test1 -->
+<head>
+<title>`documentElement.childNodes` test (where some children are comment nodes)</title>
+<script type="text/javascript">
+onload = function() {
+  var childNodesArray = [],
+      cn;
+  var childNodes = document.documentElement.childNodes;
+  for(var i = 0; i < childNodes.length; i++) {
+    cn = childNodes[i];
+    childNodesArray[i] = [cn.nodeName, cn.nodeValue||""];
+  }
+  document.body.firstChild.data = childNodesArray.join("\n");
+};
+</script>
+</head>
+<!-- test 2 -->
+<body style="white-space:pre">-</body>
+<!-- test 3 -->
+</html>
