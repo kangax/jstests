@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Various Javascript (and other front-end-dev) experiments</title>
+    <link rel="stylesheet" href="/css/master.css" type="text/css">
+  </head>
+  <body>
+    <div class="header">
+      Powered by <a href="http://wiki.github.com/mojombo/jekyll">jekyll</a>.
+      <span class="hosted">Hosted on <a href="http://github.com/kangax/jstests/">github</a>.</span>
+    </div>
+    <ul>
+      {% for post in site.posts %}
+        <li>
+          <a href="{{ post.url }}" title="">{{ post.title }}</a>
+          <span class="date">{{ post.date | date_to_string }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

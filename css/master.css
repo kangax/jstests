@@ -1,0 +1,6 @@
+body { font-family: "Cambria", Georgia, Times, "Times New Roman", serif; margin: 0; }
+li { padding-bottom: 0.5em; list-style-type: none; font-size: 0.9em; }
+.date { color: #aaa; font-size: 0.85em; margin-left: 0.5em; }
+a:focus, a:hover { text-decoration: none; }
+.header { background: #eee; padding: 0.5em; color: #555; font-style: italic; text-align: right; font-size: 0.85em; margin-bottom: 2em; }
+.hosted { margin-left: 0.5em; }
