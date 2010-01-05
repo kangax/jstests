@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Testing ActveXObject availability</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      (function () {
+        if (typeof ActiveXObject == 'undefined') {
+          document.write('ActiveXObject is not available');
+        }
+        else {
+          var xmlVersions = [
+            'Microsoft.XMLHTTP',
+            'Msxml2.XMLHTTP.3.0',
+            'Msxml2.XMLHTTP.4.0',
+            'Msxml2.XMLHTTP.5.0',
+            'Msxml2.XMLHTTP.6.0'
+          ], 
+          i, len, xhr, availableVersions = [];
+          
+          for (i = 0, len = xmlVersions.length; i < len; i++) {
+            try {
+              xhr = new ActiveXObject(xmlVersions[i]);
+              if (xhr) { 
+                availableVersions.push(xmlVersions[i]);
+              }
+            } 
+            catch(ex) { }
+          }
+          if (availableVersions.length === 0) {
+            document.write('ActiveX seems to be disabled');
+          }
+          else {
+            document.write('MSXML versions available on this computer:' +
+              '<p>' + availableVersions.join('<br>') + '</p>');
+          }
+        }        
+      })();
+    </script>
+  </body>
+</html>

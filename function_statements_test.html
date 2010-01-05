@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      if (true) {
+          function f(){ return 1; }
+        }
+        else {
+          function f(){ return 2; }
+        }
+        document.write(f() + '<br>');
+        
+        
+        document.write((typeof foo) + '<br>'); // "undefined"
+        
+          if (true) {
+            // once block is entered, `foo` becomes declared and available to the entire scope
+            function foo(){ return 1; }
+          }
+          else {
+            // this block is never entered, and `foo` is never redeclared
+            function foo(){ return 2; }
+          }
+          
+          document.write((typeof foo) + '<br>'); // "function"
+          
+          if (true) {
+            function foo(){ return 1; }
+          }
+          document.write(foo + '<br>');
+          
+          function bar(){ return 1; }
+            if (true) {
+              // overwritting with function statement
+              function bar(){ return 2; }
+            }
+          function bar(){ return 3; }
+          document.write(bar()); // 1 in FF<= 3, 2 in FF3.5 and later
+    </script>
+  </body>
+</html>

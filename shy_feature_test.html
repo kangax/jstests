@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css" media="screen">
+      span { color: #fff; padding: 0.25em; }
+    </style>
+  </head>
+  <body onload="onload()">
+    <div>
+      <p style="width:1em;" id="withShy">1111111111&shy;2222222222</p>
+      <p style="width:1em;" id="withoutShy">11111111112222222222</p>
+      <div id="log"></div>
+    </div>
+    <script type="text/javascript">
+      
+      function onload() {
+        
+        function byId(id) { 
+          return document.getElementById 
+            ? document.getElementById(id) 
+            : document.all[id]; 
+        }
+        function log(message) {
+          byId('log').innerHTML += message;
+        }
+        
+        log('Height of element with <code>&amp;shy;</code> &mdash;' + byId('withShy').offsetHeight + '<br>');
+        log('Height of element without <code>&amp;shy;</code> &mdash;' + byId('withoutShy').offsetHeight + '<br>');
+        
+        log('<p>Looks like <code>&amp;shy;</code> is ' + 
+          ((byId('withShy').offsetHeight > byId('withoutShy').offsetHeight) 
+            ? '<span style="background-color:green">supported</span>' 
+            : '<span style="background-color:red">not supported</span>') + '</p>');
+        
+      }
+    </script>
+  </body>
+</html>
