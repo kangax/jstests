@@ -5,9 +5,11 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title></title>
     <link rel="stylesheet" href="../css/ie_css_size_test.css" type="text/css">
+    <link rel="stylesheet" href="../css/ie_css_size_test_2.css" type="text/css">
   </head>
   <body>
-    <p>Testing <a href="http://webbugtrack.blogspot.com/2008/11/bug-327-ie-limits-your-css-file-size.html">IE bug with maximum size of stylesheet</a>:</p>
-    <h2>This text should be red (declared at the end of ~385KB stylesheet, with 200 rules)</h2>
+    <p>Testing <a href="http://webbugtrack.blogspot.com/2008/11/bug-327-ie-limits-your-css-file-size.html">IE stylesheet limitation</a>:</p>
+    <h2 id="id1">This text should be red (rule declared at the end of ~380KB stylesheet, with 200 rules)</h2>
+    <h2 id="id2">This text should be green (rule declared at the end of ~80KB stylesheet, with 4100 rules)</h2>
   </body>
 </html>
