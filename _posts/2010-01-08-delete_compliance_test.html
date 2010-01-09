@@ -65,6 +65,8 @@
           '<li> delete 1; ' + assertTrue(function(){ return delete 1; }) + '</li>' +
           '<li> delete ({})[\'i_dont_exist\']; ' + assertTrue(function(){ return delete ({})['i_dont_exist']; }) + '</li>' + 
           '<li> delete (function(){}).length; ' + assertFalse(function(){ return delete (function(){}).length; }) + '</li>' +
+          '<li> with({ x: 1 }) delete x; ' + assertTrue(function(){ with({ x: 1 }) return delete x; }) + '</li>' +
+          '<li> (function(){ var x; eval(\'function x(){ }\'); delete x; }) ' + assertTrue((function(){ var x; eval('function x(){ }'); return delete x; })) + '</li>' + 
         '</ol>');
       })();
     </script>
