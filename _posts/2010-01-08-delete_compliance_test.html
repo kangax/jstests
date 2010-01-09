@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css">
+      .pass { background: green; }
+      .fail { background: red; }
+      .pass, .fail { color: white; padding: 0.25em; font-family: Courier, monospace; }
+      ol li { margin-bottom: 0.75em; }
+    </style>
+    <script type="text/javascript">
+      (function(){
+        
+        var FAIL_MESSAGE = '<span class="fail">FAIL</span>';
+        var PASS_MESSAGE = '<span class="pass">PASS</span>';
+        
+        this.assertTrue = function(fn) {
+          try {
+            if (fn()) {
+              return PASS_MESSAGE;
+            }
+            return FAIL_MESSAGE;
+          }
+          catch(err) {
+            return '<span class="fail">Error: '+ (err.message || err) + '</span>';
+          }
+        };
+        this.assertFalse = function(fn) {
+          try {
+            if (fn()) {
+              return FAIL_MESSAGE;
+            }
+            return PASS_MESSAGE;
+          }
+          catch(err) {
+            return '<span class="fail">Error: '+ (err.message || err) +'</span>';
+          }
+        };
+        
+      })();
+    </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function x1(){}
+      var x2;
+      x3 = 'boo';
+      eval('var x4 = 1;');
+      eval('function x5(){}');
+      (function(x8){ 
+        var x6;
+        function x7(){}
+        document.write(
+        '<ol>' + 
+          '<li> function x(){} delete x; ' + assertFalse(function(){ return delete x1; }) + '</li>' +
+          '<li> var x; delete x; ' + assertFalse(function(){ return delete x2; }) + '</li>' +
+          '<li> x = 1; delete x; ' + assertTrue(function(){ return delete x3; }) + '</li>' +
+          '<li> eval(\'var x = 1;\'); delete x; ' + assertTrue(function(){ return delete x4; }) + '</li>' +
+          '<li> eval(\'function x(){}\'); delete x; ' + assertTrue(function(){ return delete x5; }) + '</li>' +
+          '<li> (function(){ var x; delete x; })(); ' + assertFalse(function(){ return delete x6; }) + '</li>' +          
+          '<li> (function(){ function x(){} delete x; })(); ' + assertFalse(function(){ return delete x7; }) + '</li>' +
+          '<li> (function(x){ delete x; })(); ' + assertFalse(function(){ return delete x8; }) + '</li>' + 
+          '<li> delete 1; ' + assertTrue(function(){ return delete 1; }) + '</li>' +
+          '<li> delete ({})[\'i_dont_exist\']; ' + assertTrue(function(){ return delete ({})['i_dont_exist']; }) + '</li>' + 
+          '<li> delete (function(){}).length; ' + assertFalse(function(){ return delete (function(){}).length; }) + '</li>' +
+        '</ol>');
+      })();
+    </script>
+  </body>
+</html>

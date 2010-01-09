@@ -2,15 +2,15 @@
 <html lang="en" dir="ltr" id="modernizr-1.1" class="no-js">
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  	<title>Modernizr 1.0 Test Suite</title>
-  	<style media="screen">
-  		body { font: 14px/18px Inconsolata; }
-  		li { color: #900; }
-  		li.yes { color: #090; }
-  		li b { color: #000; }
-  	</style>
+    <title>Modernizr 1.0 Test Suite</title>
+    <style media="screen">
+      body { font: 14px/18px Inconsolata; }
+      li { color: #900; }
+      li.yes { color: #090; }
+      li b { color: #000; }
+    </style>
     <script>
-    	var start = +new Date();
+      var start = +new Date();
     </script>
     <!--
     <script src="http://code.jquery.com/jquery-nightly.js"></script>
@@ -32,21 +32,20 @@
     </script>
     
     <h1>Modernizr</h1>
-	
     <ol>
     <script>
-    	for (var prop in Modernizr) {
-    	  if (typeof Modernizr[prop] === 'function') continue;
-    		if (prop == 'inputtypes' || prop == 'input') {
-    			document.write('<li><b>'+prop+'{}</b><ul>');
-    			for (var field in Modernizr[prop]) {
-    				document.write('<li class="' + (Modernizr[prop][field] ? 'yes' : '') + '">' + field + ': ' + Modernizr[prop][field] + '</li>');
-    			}
-    			document.write('</ul></li>');
-    		} else {
-    			document.write('<li  id="'+prop+'" class="' + (Modernizr[prop] ? 'yes' : '') + '">' + prop + ': ' + Modernizr[prop] + '</li>');
-    		}
-    	}
+      for (var prop in Modernizr) {
+        if (typeof Modernizr[prop] === 'function') continue;
+        if (prop == 'inputtypes' || prop == 'input') {
+          document.write('<li><b>'+prop+'{}</b><ul>');
+          for (var field in Modernizr[prop]) {
+            document.write('<li class="' + (Modernizr[prop][field] ? 'yes' : '') + '">' + field + ': ' + Modernizr[prop][field] + '</li>');
+          }
+          document.write('</ul></li>');
+        } else {
+          document.write('<li  id="'+prop+'" class="' + (Modernizr[prop] ? 'yes' : '') + '">' + prop + ': ' + Modernizr[prop] + '</li>');
+        }
+      }
     </script>
     </ol>
 
