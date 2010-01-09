@@ -8,7 +8,7 @@
       .pass { background: green; }
       .fail { background: red; }
       .pass, .fail { color: white; padding: 0.25em; font-family: Courier, monospace; }
-      ol li { margin-bottom: 0.75em; }
+      ol li { margin-bottom: 0.5em; }
     </style>
     <script type="text/javascript">
       (function(){
@@ -44,29 +44,175 @@
   </head>
   <body>
     <script type="text/javascript">
-      function x1(){}
-      var x2;
-      x3 = 'boo';
-      eval('var x4 = 1;');
-      eval('function x5(){}');
+      
+      function global_x1(){}
+      function global_x2(){}
+      
+      var global_x3;
+      var global_x4;
+      
+      eval('var eval_x1 = 1;');
+      eval('var eval_x2 = 1;');
+      
+      eval('function eval_x3(){}');
+      eval('function eval_x4(){}');
+      
       (function(x8){ 
-        var x6;
-        function x7(){}
         document.write(
         '<ol>' + 
-          '<li> function x(){} delete x; ' + assertFalse(function(){ return delete x1; }) + '</li>' +
-          '<li> var x; delete x; ' + assertFalse(function(){ return delete x2; }) + '</li>' +
-          '<li> x = 1; delete x; ' + assertTrue(function(){ return delete x3; }) + '</li>' +
-          '<li> eval(\'var x = 1;\'); delete x; ' + assertTrue(function(){ return delete x4; }) + '</li>' +
-          '<li> eval(\'function x(){}\'); delete x; ' + assertTrue(function(){ return delete x5; }) + '</li>' +
-          '<li> (function(){ var x; delete x; })(); ' + assertFalse(function(){ return delete x6; }) + '</li>' +          
-          '<li> (function(){ function x(){} delete x; })(); ' + assertFalse(function(){ return delete x7; }) + '</li>' +
-          '<li> (function(x){ delete x; })(); ' + assertFalse(function(){ return delete x8; }) + '</li>' + 
-          '<li> delete 1; ' + assertTrue(function(){ return delete 1; }) + '</li>' +
-          '<li> delete ({})[\'i_dont_exist\']; ' + assertTrue(function(){ return delete ({})['i_dont_exist']; }) + '</li>' + 
-          '<li> delete (function(){}).length; ' + assertFalse(function(){ return delete (function(){}).length; }) + '</li>' +
-          '<li> with({ x: 1 }) delete x; ' + assertTrue(function(){ with({ x: 1 }) return delete x; }) + '</li>' +
-          '<li> (function(){ var x; eval(\'function x(){ }\'); delete x; }) ' + assertTrue((function(){ var x; eval('function x(){ }'); return delete x; })) + '</li>' + 
+          '<li>' +
+            'function global_x(){} assertFalse(delete global_x); ' + 
+            assertFalse(function(){ 
+              return delete global_x1;
+            }) + 
+          '</li>' +
+          '<li>'+
+            'function global_x(){} delete global_x; assertTrue(typeof global_x == \'function\'); ' + 
+            assertTrue(function(){ 
+              delete global_x2; 
+              return typeof global_x2 == 'function'; 
+            }) + 
+          '</li>' +
+          '<li>' +
+            'var global_x; assertFalse(delete global_x); ' + 
+            assertFalse(function(){ 
+              return delete global_x3;
+            }) + 
+          '</li>' +
+          '<li>' +
+            'var global_x; delete global_x; assertTrue(typeof global_x != \'undefined\'); ' + 
+            assertFalse(function(){ 
+              delete global_x4;
+              return typeof global_x4 != 'undefined';
+            }) + 
+          '</li>' +
+          '<li>' + 
+            'x = 1; delete x; ' + 
+            assertTrue(function(){ 
+              x5 = 1;
+              return delete x5;
+            }) + 
+          '</li>' +
+          '<li>' + 
+            'x = 1; delete x; assertTrue(typeof x != \'undefined\'); ' + 
+            assertTrue(function(){ 
+              x6 = 1;
+              delete x6;
+              return typeof x6 == 'undefined';
+            }) + 
+          '</li>' +
+          '<li> eval(\'var x = 1;\'); assertTrue(delete x); ' + 
+            assertTrue(function(){ 
+              return delete eval_x1;
+            }) + 
+          '</li>' +
+          '<li> eval(\'var x = 1;\'); delete x; assertTrue(typeof x == \'undefined\'); ' + 
+            assertTrue(function(){ 
+              delete eval_x2;
+              return typeof eval_x2 == 'undefined';
+            }) + 
+          '</li>' +
+          '<li> eval(\'function x(){}\'); assertTrue(delete x); ' + 
+            assertTrue(function(){ 
+              return delete eval_x3;
+            }) + 
+          '</li>' +
+          '<li> eval(\'function x(){}\'); delete x; assertATrue(typeof x == \'undefined\'); ' + 
+            assertTrue(function(){ 
+              delete eval_x4;
+              return typeof eval_x4 == 'undefined';
+            }) + 
+          '</li>' +
+          '<li> (function(){ var x; assertFalse(delete x); })(); ' + 
+            assertFalse(function(){ 
+              var x;
+              return delete x;
+            }) + 
+          '</li>' +
+          '<li> (function(){ var x = 1; delete x; assertTrue(typeof x != \'number\') })(); ' + 
+            assertTrue(function(){ 
+              var x = 1;
+              delete x;
+              return typeof x == 'number';
+            }) + 
+          '</li>' +
+          '<li> (function(){ function x(){} assertFalse(delete x); })(); ' + 
+            assertFalse(function(){ 
+              function x(){}
+              return delete x;
+            }) + 
+          '</li>' +
+          '<li> (function(){ function x(){} delete x; assertTrue(typeof x == \'function\') })(); ' + 
+            assertTrue(function(){ 
+              function x(){}
+              delete x;
+              return typeof x == 'function';
+            }) + 
+          '</li>' +
+          '<li> (function(x){ assertFalse(delete x); })(); ' + 
+            assertFalse(function(x){ 
+              return delete x;
+            }) + 
+          '</li>' + 
+          '<li> (function(x){ delete x; assertTrue(typeof x == \'number\') })(1); ' + 
+            assertTrue(function(){ 
+              return (function(x){
+                delete x;
+                return typeof x == 'number';
+              })(1);
+            }) + 
+          '</li>' +
+          '<li> assertTrue(delete 1); ' + 
+            assertTrue(function(){ 
+              return delete 1; 
+            }) + 
+          '</li>' +
+          '<li> assertTrue(delete ({})[\'i_dont_exist\']); ' + 
+            assertTrue(function(){ 
+              return delete ({})['i_dont_exist']; 
+            }) + 
+          '</li>' + 
+          '<li> function f(){} assertFalse(delete f.length); ' + 
+            assertFalse(function(){ 
+              function f(){}
+              return delete f.length;
+            }) + 
+          '</li>' +
+          '<li> function f(){} delete f.length; assertTrue(typeof f.length == \'number\'); ' + 
+            assertTrue(function(){ 
+              function f(){}
+              delete f.length;
+              return typeof f.length == 'number';
+            }) + 
+          '</li>' +
+          '<li> with({ x: 1 }) assertTrue(delete x); ' + 
+            assertTrue(function(){ 
+              var o = { x: 1 };
+              with(o) return delete x;
+            }) + 
+          '</li>' +
+          '<li> var o = { x: 1 }; with(o) delete x; assertTrue(typeof o.x == \'undefined\'); ' + 
+            assertTrue(function(){ 
+              var o = { x: 1 };
+              with(o) delete x;
+              return typeof o.x == 'undefined';
+            }) + 
+          '</li>' +
+          '<li> (function(){ var x; eval(\'function x(){ }\'); assertTrue(delete x); }) ' + 
+            assertTrue((function(){ 
+              var x; 
+              eval('function x(){ }'); 
+              return delete x; 
+            })) + 
+          '</li>' + 
+          '<li> (function(){ var x; eval(\'function x(){ }\'); delete x; assertTrue(typeof x == \'undefined\') }) ' + 
+            assertTrue((function(){ 
+              var x; 
+              eval('function x(){ }'); 
+              delete x;
+              return typeof x == 'undefined';
+            })) + 
+          '</li>' +
         '</ol>');
       })();
     </script>
