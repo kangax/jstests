@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css" media="screen">
+      #log { background: #fee; height: 10em; }
+    </style>
+  </head>
+  <body>
+    
+    <div id="log">mousewheel test area</div>
+    <div id="testee" style="position:absolute;top:50px;left:300px;width:1em;height:1em;background:red;color:#fff;">x</div>
+    
+    <script type="text/javascript">
+      (function(global){
+        
+        function getDeltaFromEvent(e) {
+          e = e || global.event;
+          if ('wheelDelta' in e) {
+            return e.wheelDelta / 120;
+          }
+          else if ('detail' in e) {
+            return -e.detail / 3;
+          }
+          return 0;
+        }
+        
+        function fn(e) {
+          var testeeEl =  doc.getElementById('testee'),
+              logEl =     doc.getElementById('log'),
+              delta =     (e ? getDeltaFromEvent(e) : 0),
+              direction = (e ? (delta < 0 ? 'DOWN' : 'UP') : '');
+
+          if (!testeeEl || !testeeEl.style) return;
+          var newTopValue = parseFloat(testeeEl.style.top) - delta;
+          testeeEl.style.top = newTopValue + 'px';
+          
+          if (!logEl || typeof logEl.innerHTML != 'string') return;
+          logEl.innerHTML = 
+            'type: ' +  (e ? e.type : '') + 
+            '<br>e.detail: ' + (e ? e.detail : '') + 
+            '<br>e.wheelDelta: ' + (e ? e.wheelDelta : '') +
+            '<br>direction: ' + (direction + ' with delta: ' + delta);
+        }
+        
+        function addListener(el, eventName, callback) {
+          if (el.addEventListener) {
+            el.addEventListener(eventName, callback, false);
+          }
+          else if (el.attachEvent) {
+            alert('attachEvent');
+            el.attachEvent(eventName, callback);
+          }
+          else {
+            el[on + eventName] = callback;
+          }
+        }
+        
+        var doc = global.document, docEl;
+        if (!doc || !doc.getElementById) return;
+        
+        if ((docEl = doc.documentElement)) {
+          addListener(docEl, 'mousewheel', fn);
+          addListener(docEl, 'DOMMouseScroll', fn);
+        }
+        
+      })(this);
+    </script>
+  </body>
+</html>
