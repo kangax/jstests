@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Testing form controls "overwriting" various interface members otherwise available on forms</title>
+  </head>
+  <body>
+    <form action="" style="display:none">
+      
+      <!-- DOM Level 1 http://www.w3.org/TR/REC-DOM-Level-1/level-one-html.html -->
+      
+      <!-- HTMLFormElement -->
+      <input type="text" name="elements">
+      <input type="text" name="length">
+      <input type="text" name="name">
+      <input type="text" name="acceptCharset">
+      <input type="text" name="action">
+      <input type="text" name="enctype">
+      <input type="text" name="method">
+      <input type="text" name="target">
+
+      <input type="text" name="submit">
+      <input type="text" name="reset">
+      
+      <!-- HTMLCollection -->
+      <input type="text" name="item">
+      <input type="text" name="namedItem">
+      
+      <!-- HTMLElement -->
+      <input type="text" name="id">
+      <input type="text" name="title">
+      <input type="text" name="lang">
+
+      <input type="text" name="dir">
+      <input type="text" name="className">
+    </form>
+    
+    <script type="text/javascript">
+      (function(){
+
+        var HTMLElement = [
+          'id', 
+          'title', 
+          'lang', 
+          'dir', 
+          'className'
+        ];
+        
+        var HTMLFormElement = [
+          'elements', 
+          'length',
+          'name',
+          'acceptCharset',
+          'action',
+          'enctype',
+          'method',
+          'target',
+          'submit',
+          'reset',
+          'item',
+          'namedItem'
+        ];
+        
+        var HTMLCollection = [
+          'item', 
+          'namedItem', 
+          'length'
+        ];
+        
+        document.write('<br><table><tr><th>HTMLElement interface</th></tr>');
+        for (var i = 0, l = HTMLElement.length; i<l; i++) {
+          document.write('<tr><td style="width:300px">document.forms[0].' + HTMLElement[i] + 
+            ':</td><td>' + document.forms[0][HTMLElement[i]] + '</td>');
+        }
+        document.write('</table>')
+        
+        document.write('<br><table><tr><th>HTMLFormElement interface</th></tr>');
+        for (var i = 0, l = HTMLFormElement.length; i<l; i++) {
+          document.write('<tr><td style="width:300px">document.forms[0].' + HTMLFormElement[i] + 
+            ':</td><td>' + document.forms[0][HTMLFormElement[i]] + '</td>');
+        }
+        document.write('</table>')
+        
+        var firstInputElement = document.getElementsByTagName('input')[0];
+        firstInputElement.parentNode.removeChild(firstInputElement);
+        delete document.forms[0].elements;
+        var elements = document.forms[0].elements;
+                
+        document.write('<br><table><tr><th>HTMLCollection interface</th></tr>');
+        for (var i = 0, l = HTMLCollection.length; i<l; i++) {
+          document.write('<tr><td style="width:300px">document.forms[0].elements.' + HTMLCollection[i] + 
+            ':</td><td>' + document.forms[0].elements[HTMLCollection[i]] + '</td>');
+        }
+        document.write('</table>')
+        
+      })();
+    </script>
+  </body>
+</html>
