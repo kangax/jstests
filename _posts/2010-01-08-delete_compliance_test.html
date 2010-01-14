@@ -205,12 +205,15 @@
               return delete x; 
             })) + 
           '</li>' + 
-          '<li> (function(){ var x; eval(\'function x(){ }\'); delete x; assertTrue(typeof x == \'undefined\') }) ' + 
+          '<li> (function(){ var x = 1; (function(){ var x; eval(\'function x(){}\'); delete x; assertTrue(x === 1); })(); }) ' + 
             assertTrue((function(){ 
-              var x; 
-              eval('function x(){ }'); 
-              delete x;
-              return typeof x == 'undefined';
+              var x = 1;
+              return (function(){
+                var x;
+                eval('function x(){ }');
+                delete x;
+                return x === 1;
+              })();
             })) + 
           '</li>' +
         '</ol>');
