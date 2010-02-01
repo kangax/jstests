@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css">
+      #input, #output { width: 400px; height: 200px; }
+      #output { border: 1px solid #aaa; }
+      .note { font-size: 0.8em; color: #555; background: #ffc; padding: 0.5em; display: inline-block; margin-top: 0; font-style: italic; }
+    </style>
+  </head>
+  <body>
+    
+    <p>Evaluate as Javascript 
+      <input type="radio" id="1dot7" name="version" checked>
+      <label for="1dot7">1.7</label>
+      <input type="radio" id="1dot8" name="version">
+      <label for="1dot8">1.8</label>
+    </p>
+    
+    <p class="note">
+      Note that code is executed as <strong>eval code</strong> (not as <strong>global code</strong>) 
+      with <a href="http://perfectionkills.com/understanding-delete/#firebug_confusion">all of the consequences</a>.
+    </p>
+    
+    <p>Input:</p>
+    <textarea rows="8" cols="40" id="input"></textarea>
+    
+    <button type="button" id="trigger">Evaluate</button>
+    
+    <p>Output:</p>
+    <div id="output"></div>
+    
+    <script type="text/javascript">
+      (function(global){
+        
+        var win = global.window, 
+            doc = win.document,
+            body = doc.body;
+        
+        if (!doc.getElementById || !doc.createElement || 
+            !body.appendChild || !body.removeChild) return;
+            
+        function evalWithVersion(stringToEval, version) {
+          var el = doc.createElement('script');
+          el.type = "application/javascript;version=" + version;
+          el.text = 'try { this.__evalResult = eval("' + stringToEval.replace(/\n/g, ' ') + '") } catch(err) { this.__evalResult = err; }';
+          body.appendChild(el);
+          body.removeChild(el);
+        }
+        
+        function escapeHTML(s) {
+          return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        
+        doc.getElementById('trigger').onclick = function() {
+          var version = doc.getElementById('1dot7').checked ? '1.7' : '1.8';
+          var outputEl = doc.getElementById('output');
+          outputEl.innerHTML = '';
+          evalWithVersion(doc.getElementById('input').value, version);
+          outputEl.innerHTML = escapeHTML(global.__evalResult);
+        };
+        
+      })(this);
+    </script>
+  </body>
+</html>
