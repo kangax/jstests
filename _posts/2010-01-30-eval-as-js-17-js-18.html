@@ -62,6 +62,8 @@
           outputEl.innerHTML = escapeHTML(global.__evalResult);
         };
         
+        // with(document)with(documentElement)insertBefore(createElement("script"),firstChild).text="alert(1)";
+        // let(d=document,e=d.documentElement)e.insertBefore(d.createElement("script"),e.firstChild).text='alert(1)';
       })(this);
     </script>
   </body>
