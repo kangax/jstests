@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      (function(){
+
+        var iterations = 1000;
+        var times = 10;
+        
+        var x = 1, y = 2;
+
+        function f1(x,y){
+          setTimeout('this.result = x + y', 10);
+        }
+        function f2(){ 
+          setTimeout(function(){ 
+            this.result = x + y; 
+          }, 10);
+        }
+
+        function getAverage(callback) {
+          var results = [ ], start, end, i, j, sum = 0;
+          for (j = times; j--; ) {
+            start = new Date();
+            for (i = iterations; i--; ) {
+              callback();
+            }
+            end = new Date() - start;
+            results.push(end);
+          }
+          for (i = 0; i < results.length; i++) {
+            sum += results[i];
+          }
+          return sum / times;
+        }
+
+        var average1 = getAverage(f1);
+        var average2 = getAverage(f2);
+
+        document.write(
+          '<p>Runnning test ' + times + ' times, ' + iterations + 
+          ' iterations each</p><p>setTimeout(\'...\'): <strong>' + average1 + 
+          '</strong>ms; setTimeout(function(){ ... }): <strong>' + average2 + '</strong>ms</p>'
+        );
+      })();
+    </script>
+  </body>
+</html>
