@@ -6,22 +6,25 @@
     <title></title>
   </head>
   <body>
+    <p style="font-size:1.5em;">Is <code>setTimeout</code> really <strong>significantly</strong> slower when passing string value (rather than function one)?</p>
+    <p>It doesn't seem to be the case in modern engines.</p>
     <script type="text/javascript">
+    
+      var result, x = 1, y = 2;
+      
       (function(){
-
-        var iterations = 1000;
+        var iterations = 700;
         var times = 10;
         
-        var x = 1, y = 2;
+        var setTimeout = window.setTimeout; // eliminate lookup in global scope
 
-        function f1(x,y){
-          setTimeout('this.result = x + y', 10);
-        }
-        function f2(){ 
-          setTimeout(function(){ 
-            this.result = x + y; 
-          }, 10);
-        }
+        function f1(x,y){ setTimeout('result = x + y', 10); }
+        
+        function fn(){ result = x + y; };
+        function f2(){ setTimeout(fn, 10); }
+        
+        var compiledFn = Function('result = x + y');
+        function f3(){ setTimeout(compiledFn, 10); }
 
         function getAverage(callback) {
           var results = [ ], start, end, i, j, sum = 0;
@@ -38,15 +41,25 @@
           }
           return sum / times;
         }
+        
+        document.body.innerHTML += ('<p>Runnning test ' + times + ' times, ' + iterations + ' iterations each</p>');
+        
+        setTimeout(function(){
+          var average1 = getAverage(f1);
+          document.body.innerHTML += ('setTimeout(\'...\', 10): <strong>' + average1 + '</strong>ms<br>');
 
-        var average1 = getAverage(f1);
-        var average2 = getAverage(f2);
+          setTimeout(function(){
+            var average2 = getAverage(f2);
+            document.body.innerHTML += ('function f(){ ... }; setTimeout(f, 10): <strong>' + average2 + '</strong>ms<br>');
 
-        document.write(
-          '<p>Runnning test ' + times + ' times, ' + iterations + 
-          ' iterations each</p><p>setTimeout(\'...\'): <strong>' + average1 + 
-          '</strong>ms; setTimeout(function(){ ... }): <strong>' + average2 + '</strong>ms</p>'
-        );
+            setTimeout(function(){
+              var average3 = getAverage(f3);
+
+              document.body.innerHTML += ('var compiled = Function(\'...\'); setTimeout(compiled, 10): <strong>' + average3 + '</strong>ms');
+            }, 1000);
+          }, 1000);
+        }, 1000);
+        
       })();
     </script>
   </body>
