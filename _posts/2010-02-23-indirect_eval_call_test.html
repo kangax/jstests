@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Testing indirect eval call</title>
+    <style type="text/css">
+      th { width:7em; text-align:left }
+      td { border: 1px solid #ccc; }
+      .separator { height: 0.5em; border: 0; }
+      .inner { background-color: #fcc; }
+    </style>
+  </head>
+  <body>
+    <h1>Testing indirect eval call</h1>
+    <p>"outer" means indirect eval code executes code in <strong>global scope</strong>, "inner" &mdash; in <strong>local</strong>.</p>
+    <table style="margin-bottom:2em">
+      <thead><tr><th>Browser</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Op 9.27</td><td style="background:#fcc">error</td></tr>
+        <tr><td>Op 9.50</td><td>outer</td></tr>
+        <tr><td>Op 9.64</td><td>outer</td></tr>
+        <tr><td>Op 10.10</td><td>outer</td></tr>
+        
+        <tr><td colspan="2" class="separator"></td></tr>
+        
+        <tr><td>FF 2.0</td><td>outer</td></tr>
+        <tr><td>FF 3.0</td><td>outer</td></tr>
+        <tr><td>FF 3.6</td><td>outer</td></tr>
+        
+        <tr><td colspan="2" class="separator"></td></tr>
+        
+        <tr><td>Saf 2.0</td><td class="inner">inner</td></tr>
+        <tr><td>Saf 3.2</td><td class="inner">inner</td></tr>
+        <tr><td>Saf 4</td><td>outer</td></tr>
+        
+        <tr><td colspan="2" class="separator"></td></tr>
+        
+        <tr><td>Chrome 5</td><td>outer</td></tr>
+      </tbody>
+    </table>
+    <script type="text/javascript">
+      var x = 'outer';
+      (function(){ 
+        var x = 'inner';
+        try {
+          document.write((1,eval)('x'));
+        }
+        catch(err) {
+          document.write(err);
+        }        
+      })();
+    </script>
+  </body>
+</html>
