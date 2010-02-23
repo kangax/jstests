@@ -14,7 +14,7 @@
   <body>
     <h1>Testing indirect eval call</h1>
     <p>"outer" means indirect eval code executes code in <strong>global scope</strong>, "inner" &mdash; in <strong>local</strong>.</p>
-    <p>As per <abbr title="ECMAScript 5th edition">ES5</abbr>, indirect eval call should execute code in global scope. As per <abbr title="ECMAScript 3rd edition">ES3</abbr>, indirect eval call is allowed to result in an error (which is what Opera 9.27, and probably earlier, does).</p>
+    <p>As per <abbr title="ECMAScript 5th edition">ES5</abbr>, indirect eval call should execute code in global scope. As per <abbr title="ECMAScript 3rd edition">ES3</abbr>, indirect eval call is allowed to result in an error (which is what Opera 9.27, and probably earlier, does), but other than that should evaluate code in <strong>local scope</strong>.</p>
     <table style="margin-bottom:2em">
       <thead><tr><th>Browser</th><th>Result</th></tr></thead>
       <tbody>
