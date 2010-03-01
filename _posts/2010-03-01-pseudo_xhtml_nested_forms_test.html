@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Testing nested forms in XHTML 1.1</title>
+  </head>
+  <body>
+    <p>Testing this markup:</p>
+<pre>
+  &lt;form action="http://example.com/1">
+    &lt;div>
+      1
+      &lt;form action="http://example.com/2">
+        &lt;div>
+          2
+        &lt;/div>
+      &lt;/form>
+    &lt;/div>
+  &lt;/form>
+</pre>
+    <form action="http://example.com/1">
+      <div>
+        1
+        <form action="http://example.com/2">
+          <div>
+            2
+          </div>
+        </form>
+      </div>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+      document.write('<p>How many forms in a document? <strong>' + document.forms.length + '<\/strong><\/p>');
+      document.write('<p>1st form "action" attribute: <strong>' + document.forms[0].action + '<\/strong><\/p>');
+      document.write('<p>2nd form "action" attribute: <strong>' + (document.forms[1] ? document.forms[1].action : 'Form doesn\'t exist') + '<\/strong><\/p>');
+    //]]>
+    </script>
+  </body>
+</html>
