@@ -308,7 +308,7 @@ window.Modernizr = (function(window,doc){
     };
     
     tests[svg] = function(){
-        return !!(window.SVGAngle || doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
+        return !!(window.SVGAngle || (doc.implementation && doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")));
     };
     
     tests[websocket] = function(){
