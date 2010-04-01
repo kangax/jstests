@@ -10,33 +10,68 @@ title: HTML compressor smoke test
     <title></title>
   </head>
   <body>
-    
-    <!-- 1) test if quotes are stripped off of an attribute value -->
-    <input type="text">
-    
-    <!-- 2) test if attributes are converted to short form -->
-    <input type="checkbox" checked="checked">
-    
-    <!-- 3) test if empty element is removed -->
-    <p></p>
-    
-    <!-- 4) test if optional tag is removed -->
-    <p>foo</p>
-    
-    <!-- 5) test if comment is removed -->
-    
-    <!-- 6) test if STRONG element is replaced with B -->
-    <strong>foo</strong>
-    
-    <!-- 7) test if EM element is replaced with I -->
-    <em>foo</em>
-    
-    <!-- 8) test if EM element is replaced with I -->
-    <pre>
-      test
-        PRE element
-          formatting
-    </pre>
-    
+    <div>
+      
+      <!-- 1) test if quotes are stripped off of an attribute value -->
+      <p title="x">x</p>
+
+      <!-- 2) test if boolean attributes are converted to short form -->
+      <input type="checkbox" checked="checked">
+
+      <!-- 3) test if empty elements are removed -->
+      <p></p>
+
+      <!-- 4) test if optional tags are removed -->
+      <ul>
+        <li>foo</li>
+        <li>bar</li>
+      </ul>
+
+      <!-- 5) test if comments are removed -->
+
+      <!-- 6) test if STRONG elements are replaced with B -->
+      <strong>foo</strong>
+
+      <!-- 7) test if EM elements are replaced with I -->
+      <em>foo</em>
+
+      <!-- 8) test if whitespace in PRE is preserved -->
+      <pre>
+        test
+          PRE element
+            formatting
+      </pre>
+
+      <!-- 9) test if whitespace in TEXTAREA is preserved -->
+      <textarea rows="8" cols="40">
+        test
+          TEXTAREA element
+            formatting
+      </textarea>
+      
+      <!-- 10) test if whitespace between attributes is normalized -->
+      <a     href     =   "http://example.com"      title  =     "foo bar baz"   >test</a>
+      
+    </div>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- -->
