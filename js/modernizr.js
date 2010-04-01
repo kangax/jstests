@@ -182,6 +182,22 @@ window.Modernizr = (function(window,doc){
         return isEventSupported;
     })();
     
+    var _hasOwnProperty = ({}).hasOwnProperty;
+    if (typeof _hasOwnProperty !== 'undefined' && 
+        typeof _hasOwnProperty.call !== 'undefined') {
+      hasOwnProperty = function(object, property) {
+        return _hasOwnProperty.call(object, property);
+      };
+    }
+    else {
+      hasOwnProperty = function(object, property) {
+        /* yes, this can give false positives/negatives, but most of the time we don't care about those */
+        return (
+          (property in object) && 
+          typeof object.constructor.prototype[property] === 'undefined');
+      };
+    }
+    
     /**
      * set_css applies given styles to the Modernizr DOM node.
      */
@@ -583,7 +599,7 @@ window.Modernizr = (function(window,doc){
 
     // Run through all tests and detect their support in the current UA.
     for ( feature in tests ) {
-        if ( tests.hasOwnProperty( feature ) ) {
+        if ( hasOwnProperty( tests, feature ) ) {
             classes.push( ( !( ret[ feature ] = tests[ feature ]() ) && enableNoClasses ? 'no-' : '' ) + feature );
         }
     }
@@ -597,7 +613,7 @@ window.Modernizr = (function(window,doc){
      * @param test - Function returning true if feature is supported, false if not
      */
     ret.addTest = function (feature, test) {
-      if (this.hasOwnProperty( feature )) {
+      if (hasOwnProperty( this, feature )) {
         // warn that feature test is already present
       } 
       test = !!(test());
