@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      (function(global){
+        function write(m) { document.write(m + '<br>'); }
+        try {
+          write(document.createElement('div'));
+          write('');
+          write('HTMLDivElement: ' + global.HTMLDivElement);
+          write('HTMLDivElement:' + (global.HTMLDivElement && global.HTMLDivElement.prototype));
+          write('');
+          write('HTMLElement: ' + global.HTMLElement);
+          write('HTMLElement.prototype: ' + (global.HTMLElement && global.HTMLElement.prototype));
+          write('');
+          write('Element: ' + global.Element);
+          write('Element.prototype: ' + (global.Element && global.Element.prototype));
+          write('');
+          write('Node: ' + global.Node);
+          write('Node.prototype: ' + (global.Node && global.Node.prototype));
+          write('');
+          write('Element instanceof Object: &nbsp;&nbsp;&nbsp; ' + (global.Element instanceof Object));
+        }
+        catch(err) {
+          write(err);
+        }
+        
+      })(this);
+    </script>
+  </body>
+</html>
