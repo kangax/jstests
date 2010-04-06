@@ -8,7 +8,15 @@
   <body>
     <script type="text/javascript">
       (function(global){
-        function write(m) { document.write(m + '<br>'); }
+        function write(m) { 
+          document.write(m + '<br>'); 
+        }
+        function colorizeResult(value) { 
+          if (value) {
+            return ('<span style="background-color:green;color:#fff;padding:0.25em;">' + value + '</span>');
+          } 
+          return ('<span style="background-color:red;color:#fff;padding:0.25em;">' + value + '</span>');
+        }
         try {
           write(document.createElement('div'));
           write('');
@@ -24,7 +32,19 @@
           write('Node: ' + global.Node);
           write('Node.prototype: ' + (global.Node && global.Node.prototype));
           write('');
-          write('Element instanceof Object: &nbsp;&nbsp;&nbsp; ' + (global.Element instanceof Object));
+          write('Element instanceof Object: ' + colorizeResult(global.Element instanceof Object));
+          write('');
+          
+          var isInheritanceSupported = (function(){ 
+            var uid = Math.random() + '', dummyFunc = function(){ };
+            if (global.Element && global.Element.prototype) {
+              global.Element.prototype[uid] = dummyFunc;
+              return (document.createElement('p')[uid] === dummyFunc);
+            }
+            return false;
+          })();
+          
+          write('Is inheritance supported? (through `Element.prototype` extension) ' + colorizeResult(isInheritanceSupported));
         }
         catch(err) {
           write(err);
