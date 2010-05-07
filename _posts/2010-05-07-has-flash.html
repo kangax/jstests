@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var hasFlash = (function() {  
+        if (navigator.plugins && navigator.plugins.length) {
+          if (navigator.plugins['Shockwave Flash'] || navigator.plugins['Shockwave Flash 2.0']) {
+            return true;
+          }
+        }
+        else if (navigator.mimeTypes && navigator.mimeTypes.length) {
+          var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
+          return mimeType && mimeType.enabledPlugin;
+        } 
+        else {
+          try {
+            var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7');
+            return true;
+          } 
+          catch (e) {
+            try {
+              var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6');
+              return true;
+            } 
+            catch (e) {
+              try {
+                var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                return true;
+              } 
+              catch (e) {
+                // No flash
+              }
+            }
+          }
+        }
+        return false;
+      })();
+      
+      document.write('Has flash? ' + hasFlash);
+    </script>
+  </body>
+</html>
