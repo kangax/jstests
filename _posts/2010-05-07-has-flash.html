@@ -7,11 +7,13 @@
   </head>
   <body>
     <script type="text/javascript">
+      // based on http://code.google.com/p/doctype/wiki/ArticleDetectFlash
       var hasFlash = (function() {  
         if (navigator.plugins && navigator.plugins.length) {
-          if (navigator.plugins['Shockwave Flash'] || navigator.plugins['Shockwave Flash 2.0']) {
-            return true;
-          }
+          return (
+            navigator.plugins['Shockwave Flash'] || 
+            navigator.plugins['Shockwave Flash 2.0']
+          );
         }
         else if (navigator.mimeTypes && navigator.mimeTypes.length) {
           var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
@@ -19,17 +21,17 @@
         } 
         else {
           try {
-            var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7');
+            new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7');
             return true;
           } 
           catch (e) {
             try {
-              var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6');
+              new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6');
               return true;
             } 
             catch (e) {
               try {
-                var ax = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
                 return true;
               } 
               catch (e) {
