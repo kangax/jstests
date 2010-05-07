@@ -10,10 +10,9 @@
       // based on http://code.google.com/p/doctype/wiki/ArticleDetectFlash
       var hasFlash = (function() {  
         if (navigator.plugins && navigator.plugins.length) {
-          return (
-            navigator.plugins['Shockwave Flash'] || 
-            navigator.plugins['Shockwave Flash 2.0']
-          );
+          if (navigator.plugins['Shockwave Flash'] || navigator.plugins['Shockwave Flash 2.0']) {
+            return true;
+          }
         }
         else if (navigator.mimeTypes && navigator.mimeTypes.length) {
           var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
