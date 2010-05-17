@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css">
+      input { text-decoration:underline;background:none;display:inline-block;border:none;color:blue;cursor:pointer; }
+      input:hover, input:focus { text-decoration:none; }
+      input:active { color: red; }
+      
+      button { background: none; border: none; color: blue; cursor: pointer; }
+      button span { text-decoration: underline; }
+      button:hover span, button:focus span { text-decoration: none; }
+      button:active { color: red; }
+      
+      #tabIndexAttr { display: block; color: blue; }
+      #tabIndexProp { display: block; color: green; }
+      
+      a { display: block; }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="button" value="input[type='button']">
+    </div>
+    <div>
+      <button><span>Button with span</span></button>
+    </div>
+    <div>
+      <span tabIndex="0" id="tabIndexAttr">span with `tabIndex == 0` attribute</span>
+      <span id="tabIndexProp">span with `tabIndex == 0` property</span>
+      <a>anchor without href</a>
+      <a tabIndex="0">anchor without href with `tabIndex == 0` attribute</a>
+      <a href="#">anchor with href</a>
+    </div>
+    <script type="text/javascript">
+      document.getElementById('tabIndexProp').tabIndex = 0;
+    </script>
+  </body>
+</html>
