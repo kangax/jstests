@@ -3,7 +3,10 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title></title>
+    <title>DOM objects prototypes test</title>
+    <style type="text/css">
+      body { line-height: 1.4; }
+    </style>
   </head>
   <body>
     <script type="text/javascript">
@@ -18,7 +21,7 @@
           return ('<span style="background-color:red;color:#fff;padding:0.25em;">' + value + '</span>');
         }
         try {
-          write(document.createElement('div'));
+          write('document.createElement(\'div\'): ' + document.createElement('div'));
           write('');
           write('HTMLDivElement: ' + global.HTMLDivElement);
           write('HTMLDivElement:' + (global.HTMLDivElement && global.HTMLDivElement.prototype));
@@ -32,7 +35,13 @@
           write('Node: ' + global.Node);
           write('Node.prototype: ' + (global.Node && global.Node.prototype));
           write('');
-          write('Element instanceof Object: ' + colorizeResult(global.Element instanceof Object));
+          
+          write('Element instanceof Object: ' + 
+            colorizeResult(global.Element instanceof Object));
+          
+          write('document.createElement(\'div\') instanceof Object: ' + 
+            colorizeResult(document.createElement('div') instanceof Object));
+            
           write('');
           
           var isInheritanceSupported = (function(){ 
