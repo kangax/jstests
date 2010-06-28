@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css">
+      object { background: green; background: lightgreen; }
+    </style>
+  </head>
+  <body>
+    Both events (attached via property and via `addEventListener`) are fired in these browsers:
+    <ul>
+      <li><strong>Firefox</strong>: 3.7, 3.6, 3.5, 3, 2, 1.5, 1</li>
+      <li><strong>Safari</strong>: 5, 4.0.5, 3.2, 3.1.2, 3.0.4, 2.0.4, 2.0.3, 2.0.2, 2.0</li>
+      <li><strong>Chrome</strong>: 6</li>
+    </ul>
+    but fail in:
+    <ul>
+      <li><strong>Opera</strong>: 10.6, 10.5, 10.1, 10.01, 9.64, 9.5, 9.27, 9.2, 9.1, 9.02</li>
+    </ul>
+    <script type="text/javascript">
+      (function() {
+        var el = this.el = document.createElement('object');
+        el.onload = function() {
+          alert('load event fired');
+        };
+        el.onerror = function() {
+          alert('error event fired');
+        };
+        if (typeof el.addEventListener != 'undefined') {
+          el.addEventListener('load', function() {
+            alert('load event (attached via `addEventListener`) fired');
+          }, false);
+        }
+        el.data = 'http://code.jquery.com/jquery-1.4.2.js';
+        el.type = 'text/javascript';
+        document.body.appendChild(el);
+      })();
+    </script>
+  </body>
+</html>
