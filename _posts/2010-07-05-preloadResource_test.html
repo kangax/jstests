@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>preloadResource test</title>
+    <script type="text/javascript">
+    
+      /*! Based on the version by Stoyan Stefanov, but with added timeout capability */
+      function preloadResource(resourceUrl, callback, timeout) {
+        var isIE = /*@cc_on!@*/0,
+            el, 
+            loaded = false;
+        
+        function onLoad() {
+          if (!loaded) {
+            loaded = true;
+            timeoutId = null;
+            callback('loaded');
+          }
+        }
+        
+        var timeoutId = setTimeout(function() {
+          if (!loaded) {
+            loaded = true;
+            callback('timed out');
+          }
+        }, timeout);
+
+        if (isIE) {
+          el = new Image();
+          el.onload = el.onerror = onLoad;
+          el.src = resourceUrl;
+          el = null;
+        }
+        else {
+          el = document.createElement('object');
+          el.onload = onLoad;
+          el.data = resourceUrl;
+          el.width = el.height = 0;
+          document.body.appendChild(el);
+        }  
+      };
+      
+      var id = 999;
+      function load() {
+        
+        var resourceDelay = parseInt(document.getElementById('resourceDelay').value, 10),
+            resourceTimeout = parseInt(document.getElementById('resourceTimeout').value, 10);
+        
+        preloadResource('http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=' + (resourceDelay / 1000) + '&n=1&t=' + (id++), function(status) {
+          alert(status);
+        }, resourceTimeout);
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+      <h1>Testing <code>preloadResource</code> with callback/timeout capabilities</h1>
+      <label for="resourceDelay">Resource delay:</label>
+      <input value="2000" id="resourceDelay">
+
+      <label for="resourceTimeout">Resource timeout:</label>
+      <input value="1000" id="resourceTimeout">
+
+      <button onclick="load()">Load resource</button>
+    </div>
+  </body>
+</html>
