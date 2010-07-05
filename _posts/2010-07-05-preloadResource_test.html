@@ -48,7 +48,9 @@
         var resourceDelay = parseInt(document.getElementById('resourceDelay').value, 10),
             resourceTimeout = parseInt(document.getElementById('resourceTimeout').value, 10);
         
-        preloadResource('http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=' + (resourceDelay / 1000) + '&n=1&t=' + (id++), function(status) {
+        var url = 'http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=' + (resourceDelay / 1000) + '&n=1&t=' + Number(new Date());
+        
+        preloadResource(url, function(status) {
           alert(status);
         }, resourceTimeout);
       }
