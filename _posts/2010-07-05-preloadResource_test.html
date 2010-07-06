@@ -8,7 +8,9 @@
     
       /*! Based on the version by Stoyan Stefanov, but with added timeout capability */
       function preloadResource(resourceUrl, callback, timeout) {
-        var isIE = /*@cc_on!@*/0,
+        var shouldUseImage = /*@cc_on!@*/0 || 
+                              (typeof window.opera !== 'undefined' && 
+                              ({}).toString.call(window.opera) === '[object Opera]'),
             el, 
             loaded = false;
         
@@ -27,7 +29,7 @@
           }
         }, timeout);
 
-        if (isIE) {
+        if (shouldUseImage) {
           el = new Image();
           el.onload = el.onerror = onLoad;
           el.src = resourceUrl;
