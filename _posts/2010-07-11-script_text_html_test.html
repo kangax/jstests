@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Testing whether SCRIPT element with type="text/html" is executed</title>
+    <style type="text/css">
+      .yes, .no { display: inline-block; padding: 0.25em; }
+      .no { background-color: #faa; }
+      .yes { background-color: #afa; }
+    </style>
+  </head>
+  <body>
+    <h1>Is SCRIPT element with type="text/html" executed?</h1>
+    <p>NOT executed in these browsers:</p>
+    <ul>
+      <li>IE 5.5, 6, 7, 8</li>
+      <li>FF 1, 1.5, 2, 3, 3.5, 3.6</li>
+      <li>Saf 2.0, 2.0.4, 3.0.4, 3.1.2, 3.2.1, 4.0.5, 5</li>
+      <li>Opera 7.54, 8.01, 8.54, 9.0, 9.20, 9.64, 10.10, 10.50, 10.60</li>
+      <li>IE 5.2 (mac)</li>
+      <li>Netscape 7.2</li>
+      <li>Mozilla 1.4</li>
+    </ul>
+    
+    <script type="text/html">
+      var __likely_inexisting_variable_with_likely_inexisting_value = 123456789;
+    </script>
+    
+    <script type="text/javascript">
+      document.write('<p style="margin-bottom:0;margin-top:2em">Result in this browser:</p>');
+      if (typeof __likely_inexisting_variable_with_likely_inexisting_value !== 'undefined' &&
+          __likely_inexisting_variable_with_likely_inexisting_value === 123456789) {
+        document.write('<p class="yes">script with type="text/html" executed</p>');
+      }
+      else {
+        document.write('<p class="no">script with type="text/html" NOT executed</p>');
+      }
+    </script>
+  </body>
+</html>
