@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>document.write script execution order</title>
+    <style type="text/css">
+      pre strong { color: red; }
+    </style>
+  </head>
+  <body>
+    
+    <h1>document.write script execution order</h1>
+    
+    <p>The following numbers should be 1 to 5, written in ascending order:</p>
+    <div style="background-color:#ffc; border:1px solid orange; display: inline-block; padding: 0.5em">
+      <script type="text/javascript">
+        document.write(1);
+        document.write(
+          '<script type="text/javascript">' +
+            'document.write(2);' +
+            'document.write("<script type=\'text/javascript\'>document.write(3);<\\/script>");' +
+            'document.write(4);' +
+          '<\/script>'
+        );
+        document.write(5);
+      </script>
+    </div>
+    <p>Browsers that output numbers in such sequence: </p>
+    <ul>
+      <li><strong>Safari</strong> 2.0.4, 3.0.4, 3.1.2, 3.2.1, 4.0.5, 5</li>
+      <li><strong>Chrome</strong> 6</li>
+      <li><strong>Opera</strong> 9.20, 9.27, 9.50, 9.64, 10.01, 10.10, 10.50, 10.60</li>
+      <li><strong>FF</strong> 1.5, 2, 3, 3.5, 3.6</li>
+      <li><strong>IE</strong> 5.5, 6, 7, 8</li>
+    </ul>
+  </body>
+</html>
+
+<p>What's the order of "document.written" script execution?</p>
+<pre style="border:1px solid #aaf; background-color: #eef; padding: 1em; display: inline-block;">
+&lt;script>
+... <strong>1</strong> ...
+document.write('&lt;script>...&lt;/script&gt;');
+... <strong>5</strong> ...                |
+&lt;/script>                |
+                         v
+                      &lt;script>
+                      ... <strong>2</strong> ...
+                      document.write('&lt;script>...&lt;/script>');
+                      ... <strong>4</strong> ...                |
+                      &lt;/script>                |
+                                               v
+                                            &lt;script>
+                                            ... <strong>3</strong> ...
+                                            &lt;/script>
+</pre>

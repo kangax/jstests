@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Inspecting [[Prototype]]'s of various HTML4 and HTML5 elements</title>
+    <style type="text/css">
+      body { font-family: Optima, serif; }
+      ul { padding-left: 0; overflow: hidden; }
+      li { margin-top: 0; margin-bottom: 0.25em; clear: both; float: left; list-style: none; font-family: Courier, monospace; font-size: 0.9em; }
+      span { float: left; display: block; }
+      .label { width: 10em; }
+      .generic { background-color: #faa; }
+      .unknown { background-color: #ffa; }
+    </style>
+  </head>
+  <body>
+    <p>This test checks which elements have [[Prototype]] referencing "generic" <code>HTMLElement</code> and which ones don't. I was curious whether elements introduced in HTML5 implement "specific" interfaces (such as <code>HTMLDivElement</code>, <code>HTMLSpanElement</code>, etc.). For example, I noticed that some browsers that don't support VIDEO element, set that element's [[Prototype]] to generic <code>HTMLElement</code>, but those that do — to <code>HTMLVideoElement</code>. This is by far not the best indication of certain element being "supported", since many browsers give even some of the long-supported HTML4 elements (e.g. <code>dd</code>, <code>dt</code>, <code>em</code>, <code>strong</code>, etc.) [[Prototype]] of HTMLElement. However, it's still interesting to see what [[Prototype]]'s of various elements are.</p>
+    <script type="text/javascript">
+    
+      (function(){
+        var elements = (
+          'a abbr address area article aside audio ' +
+          'b base bdo blockquote body br button ' +
+          'canvas caption cite code col colgroup command ' +
+          'datalist dd del details device dfn div dl dt ' +
+          'em embed ' + 
+          'fieldset figcaption figure footer form ' +
+          'h1 h2 h3 h4 h5 h6 head header hgroup hr html ' +
+          'i iframe img input ins ' +
+          'kbd keygen ' +
+          'label legend li link ' +
+          'map mark menu meta meter ' +
+          'nav noscript ' +
+          'object ol optgroup option output ' +
+          'p param pre progress ' +
+          'q ' +
+          'rp rt ruby ' + 
+          'samp script section select small source span strong style sub summary sup ' +
+          'table tbody textarea tfoot th thead time title tr track ' +
+          'ul ' +
+          'var video ' +
+          'wbr'
+        ).split(' ');
+        
+        
+        var exposesHTMLElement = typeof HTMLElement !== 'undefined' && 
+                                 typeof HTMLElement.prototype !== 'undefined',
+                                 
+            exposesHTMLUnknownElement = typeof HTMLUnknownElement !== 'undefined' && 
+                                        HTMLUnknownElement.prototype !== 'undefined',
+            el, 
+            isGenericElement, 
+            isUnknownElement,
+            elementType;
+        
+        if (!('__proto__' in ({}))) {
+          document.write('<strong>__proto__ doesn\'t seem to be supported. Tests are not run, but elements are still inspected.</strong>')
+        }
+        document.write('<ul>');
+
+        for (var i = 0, len = elements.length; i < len; i++) {
+
+          el = document.createElement(elements[i]);
+
+          if ('__proto__' in el && exposesHTMLElement) {
+            isGenericElement = el.__proto__ === HTMLElement.prototype;
+          }
+          if ('__proto__' in el && exposesHTMLUnknownElement) {
+            isUnknownElement = el.__proto__ === HTMLUnknownElement.prototype;
+          }
+          
+          elementType = isGenericElement ? 'generic' : isUnknownElement ? 'unknown' : '';
+          
+          document.write(
+            '<li><span class="label">' + elements[i] + 
+            ':</span><span class="value ' + elementType + '">' + 
+            el + 
+            '</span></li>');
+        }
+        document.write('</ul>');       
+      })();
+    </script>
+  </body>
+</html>
