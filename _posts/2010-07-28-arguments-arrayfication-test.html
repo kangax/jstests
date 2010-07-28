@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>arguments arrayfication performance test</title>
+    <style type="text/css">
+      pre { background: #ffc; padding: 0.5em; display: inline-block; font-family: courier, monospace; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <p>Is <a href="http://webreflection.blogspot.com/2010/07/arrayprototypeslice-vs-arrayfication.html"><code>Array.fy</code> function</a> 
+      really faster than <code>slice</code>? Not in Chrome 5, Firefox 3.6 or Opera 10.70.</p>
+    <p>In Mozilla, <strong>Array generics</strong> (e.g. <code>Array.forEach(arguments, ...)</code>) is almost always the fastest one.</p>
+    
+    <script type="text/javascript">
+        Array.fy = (function () {
+            // (C) WebReflection - Mit Style License
+            for (var
+                m = [
+                    "pop", "push", "reverse", "shift", "sort", "splice", "unshift",
+                    "concat", "join", "slice", "indexOf", "lastIndexOf",
+                    "filter", "forEach", "every", "map", "some", "reduce", "reduceRight"
+                ],
+                i = m.length; i--;
+            ) {
+                m[i] = "o." + m[i] + "=p." + m[i];
+            }
+            m.push("return o");
+            return Function("p",
+                "return function Arrayfy(o){" + m.join(";") + "}"
+            )(Array.prototype);
+        }());
+
+        var t = new Date(), lim = 10000, slice = Array.prototype.slice;
+
+        var fy = Array.fy;
+        (function(){
+          for (var i = lim; i--; ) {
+            fy(arguments).forEach(function(){ });
+          }
+        })(1,2,3);
+        var t1 = new Date() - t;
+
+        t = new Date();
+        (function(){
+          for (var i = lim; i--; ) {
+            slice.call(arguments).forEach(function(){ });
+          }
+        })(1,2,3);
+        var t2 = new Date() - t;
+
+        t = new Date();
+        (function(){
+          for (var i = lim; i--; ) {
+            arguments.__proto__ = Array.prototype;
+            arguments.forEach(function(){ });
+          }
+        })(1,2,3);
+        var t3 = new Date() - t;
+
+        if (Array.forEach) {
+          t = new Date();
+          (function(){
+            for (var i = lim; i--; ) {
+              Array.forEach(arguments, function(){ });
+            }
+          })(1,2,3);
+          var t4 = new Date() - t;
+        }
+
+
+        document.write('<pre> Array.fy(arguments): <strong>' + t1 + '</strong>' +
+          'ms<br> slice.call(arguments): <strong>' + t2 + '</strong>' +
+          'ms<br> arguments.__proto__ = Array.prototype: <strong>' + t3 + '</strong>' +
+          'ms<br >');
+
+        if (typeof t4 != 'undefined') {
+          document.write('Array.forEach(arguments): <strong>' + t4 + '</strong>ms');
+        }
+        document.write('</pre>');
+
+      </script>
+  </body>
+</html>
