@@ -32,51 +32,76 @@
             )(Array.prototype);
         }());
 
-        var t = new Date(), lim = 10000, slice = Array.prototype.slice;
+        var t, 
+            lim = 10000, 
+            slice = Array.prototype.slice,
+            args = [1, 2, 3, 4, 5],
+            fy = Array.fy,
+            forEach = Array.prototype.forEach,
+            forEachGeneric = Array.forEach,
+            callback = function() { };
 
-        var fy = Array.fy;
+        t = new Date();
         (function(){
           for (var i = lim; i--; ) {
-            fy(arguments).forEach(function(){ });
+            fy(arguments).forEach(callback);
           }
-        })(1,2,3);
+        }).apply(null, args);
         var t1 = new Date() - t;
 
         t = new Date();
         (function(){
           for (var i = lim; i--; ) {
-            slice.call(arguments).forEach(function(){ });
+            slice.call(arguments).forEach(callback);
           }
-        })(1,2,3);
+        }).apply(null, args);
         var t2 = new Date() - t;
 
         t = new Date();
         (function(){
           for (var i = lim; i--; ) {
             arguments.__proto__ = Array.prototype;
-            arguments.forEach(function(){ });
+            arguments.forEach(callback);
           }
-        })(1,2,3);
+        }).apply(null, args);
         var t3 = new Date() - t;
+        
+        t = new Date();
+        (function(){
+          for (var i = lim; i--; ) {
+            forEach.call(arguments, callback);
+          }
+        }).apply(null, args);
+        var t4 = new Date() - t;
+        
+        t = new Date();
+        (function(){
+          for (var i = lim; i--; ) {
+            Array.apply(null, arguments).forEach(callback);
+          }
+        }).apply(null, args);
+        var t5 = new Date() - t;
 
-        if (Array.forEach) {
+        if (forEachGeneric) {
           t = new Date();
           (function(){
             for (var i = lim; i--; ) {
-              Array.forEach(arguments, function(){ });
+              forEachGeneric(arguments, callback);
             }
-          })(1,2,3);
-          var t4 = new Date() - t;
+          }).apply(null, args);
+          var t6 = new Date() - t;
         }
 
 
-        document.write('<pre> Array.fy(arguments): <strong>' + t1 + '</strong>' +
-          'ms<br> slice.call(arguments): <strong>' + t2 + '</strong>' +
-          'ms<br> arguments.__proto__ = Array.prototype: <strong>' + t3 + '</strong>' +
+        document.write('<pre> Array.fy(arguments).forEach: <strong>' + t1 + '</strong>' +
+          'ms<br> slice.call(arguments).forEach: <strong>' + t2 + '</strong>' +
+          'ms<br> arguments.__proto__ = Array.prototype; arguments.forEach: <strong>' + t3 + '</strong>' +
+          'ms<br> Array.prototype.forEach.call(arguments): <strong>' + t4 + '</strong>' +
+          'ms<br> Array.apply(null, arguments).forEach: <strong>' + t5 + '</strong>' +
           'ms<br >');
 
-        if (typeof t4 != 'undefined') {
-          document.write('Array.forEach(arguments): <strong>' + t4 + '</strong>ms');
+        if (typeof t6 != 'undefined') {
+          document.write(' Array.forEach(arguments): <strong>' + t6 + '</strong>ms');
         }
         document.write('</pre>');
 
