@@ -6,7 +6,7 @@
     <title>Testing form controls "overwriting" various interface members otherwise available on forms</title>
   </head>
   <body>
-    <p>This test checks if form controls with names corresponding to form element's interface members, overwrites those members. For example, does <code>&lt;input name="submit"></code> shadow <code>formElement.submit</code> method?</p>
+    <p>This test checks if form controls with names corresponding to form element's interface members (as well as those defined further up the chain — in HTMLElement, Element, Node, ...), shadows those members. For example, does <code>&lt;input name="submit"></code> shadow <code>formElement.submit</code> method? Does <code>&lt;input name="className"></code> shadow <code>formElement.className</code> property? etc.</p>
     <form action="" style="display:none">
       
       <!-- DOM Level 1 http://www.w3.org/TR/REC-DOM-Level-1/level-one-html.html -->
