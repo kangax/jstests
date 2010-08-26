@@ -11,7 +11,7 @@
     </style>
   </head>
   <body>
-    <h1>Is SCRIPT element with type="text/html" executed?</h1>
+    <h2>Is SCRIPT element with type="text/html" executed?</h2>
     <p>NOT executed in these browsers:</p>
     <ul>
       <li>IE 5.5, 6, 7, 8</li>
@@ -35,6 +35,33 @@
       }
       else {
         document.write('<p class="no">script with type="text/html" NOT executed</p>');
+      }
+    </script>
+    
+    <h2>Is SCRIPT element without type attribute executed?</h2>
+    <p>Executed in these browsers:</p>
+    <ul>
+      <li>IE 5.01, 5.2 (Mac), 5.5, 6, 7, 8</li>
+      <li>FF 1, 1.5, 2, 3, 3.6</li>
+      <li>Saf 2, 3, 4</li>
+      <li>Opera 7.54, 8.01, 8.54, 9.0, 9.27, 9.64, 10.10, 10.50</li>
+      <li>Chrome 5</li>
+      <li>N Navigator 7.2, 9</li>
+      <li>Mozilla 1.4, 1.8</li>
+    </ul>
+
+    <script>
+      var __likely_inexisting_variable_with_likely_inexisting_value_2 = 987654321;
+    </script>
+    
+    <script type="text/javascript">
+      document.write('<p style="margin-bottom:0;margin-top:2em">Result in this browser:</p>');
+      if (typeof __likely_inexisting_variable_with_likely_inexisting_value_2 !== 'undefined' &&
+          __likely_inexisting_variable_with_likely_inexisting_value_2 === 987654321) {
+        document.write('<p class="yes">script without type attribute executed</p>');
+      }
+      else {
+        document.write('<p class="no">script without type attribute NOT executed</p>');
       }
     </script>
   </body>

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p>offsetParent throws errors on access in certain versions of IE</p>
+    <pre><script type="text/javascript">
+        (function(){
+
+          var innerElement = document.createElement('div'),
+              outerElement = document.createElement('div'),
+              standaloneElement = document.createElement('div');
+
+          outerElement.appendChild(innerElement);
+
+          try { document.write('standaloneElement.offsetParent: ' + standaloneElement.offsetParent + '<br>'); } 
+          catch(err) { document.write('standaloneElement.offsetParent: ' + err + '<br>'); }
+
+          try { document.write('innerElement.offsetParent: ' + innerElement.offsetParent + '<br>'); } 
+          catch(err) { document.write('innerElement.offsetParent: ' + err + '<br>'); }
+
+          try { document.write('outerElement.offsetParent: ' + outerElement.offsetParent + '<br>'); } 
+          catch(err) { document.write('outerElement.offsetParent: ' + err + '<br>'); }
+
+        })();
+      </script>
+    </pre>
+  </body>
+</html>

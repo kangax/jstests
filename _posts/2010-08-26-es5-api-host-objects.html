@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <style type="text/css">
+      p { margin: 0; }
+      .yes, .no { padding: 2px 5px; margin: 1px; display: inline-block; color: #fff; width: 30px; text-align: center; }
+      .yes { background-color: green; }
+      .no { background-color: red; }
+      .message { display: inline-block; width: 390px; }
+      h2 { margin-top: 0; }
+      .block { background: #ffc; float: left; margin-right: 20px; padding: 10px; }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function writeAssertion(assertion, message) {
+        document.write('<p><span class="message">' + message + '</span> ' + (assertion ? '<span class="yes">Yes</span>' : '<span class="no">No</span>') + '</p>');
+      }
+      
+      function test(header, sealingMethod) {
+        document.write('<div class="block">');
+        
+        document.write('<h2>' + header + ':</h2>');
+        
+        var el = document.createElement('div');
+        el.innerHTML = 'foo';
+        
+        sealingMethod(el);
+        
+        el.innerHTML = 'blah';
+        writeAssertion(el.innerHTML === 'blah', 'Can change innerHTML?');
+        writeAssertion(el.childNodes[0].nodeValue === 'blah', 'Does setting innerHTML change contents?');
+        
+        el = document.createElement('div');
+        sealingMethod(el);
+        el.className = 'foo';
+        writeAssertion(el.className === 'foo', 'Can change class?');
+        
+        el = document.createElement('div');
+        sealingMethod(el);
+        try { el.some_custom_property = 'foobarbaz'; } catch(err) { }
+        writeAssertion(el.some_custom_property === 'foobarbaz', 'Can add custom property?');
+        
+        el = document.createElement('div');
+        var el2 = document.createElement('span');
+        el.appendChild(el2);
+        sealingMethod(el);
+        
+        writeAssertion(el.childNodes[1] && el.childNodes[1].nodeName.toLowerCase() === 'span', 'Can add a child element?');
+        
+        el = document.createElement('div');
+        el.appendChild(document.createTextNode('foo'));
+        sealingMethod(el);
+        el.childNodes[0].nodeValue = 'foobarbaz';
+        writeAssertion(el.childNodes[0].nodeValue === 'foobarbaz', 'Can change value of an existing child node?');
+        
+        el = document.createElement('div');
+        var uid = 'x' + (Math.random() + '').slice(2);
+        el.id = uid;
+        sealingMethod(el);
+        document.body.appendChild(el);
+        writeAssertion(document.getElementById(uid) !== null, 'Can insert element into a document?');
+        document.body.removeChild(el);
+        
+        el = document.createElement('div');
+        var uid = 'x' + (Math.random() + '').slice(2);
+        el.id = uid;
+        document.body.appendChild(el);
+        sealingMethod(el);
+        document.body.removeChild(el);
+        writeAssertion(document.getElementById(uid) === null, 'Can remove element from a document?');
+        
+        el = document.createElement('div');
+        sealingMethod(el);
+        var customFunction = function(){ };
+        try { el.addEventListener = customFunction; } catch(err) { }
+        writeAssertion(el.addEventListener === customFunction, 'Can overwrite existing (but on prototype) method?');
+        
+        el = document.createElement('div');
+        sealingMethod(el);
+        var customFunction = function(){ };
+        try { el.onclick = customFunction; } catch(err) { }
+        writeAssertion(el.onclick === customFunction, 'Can add event handler property (e.g. onclick)?');
+        
+        el = document.createElement('div');
+        var customFunction = function(){ };
+        var otherFunction = function(){ };
+        el.onclick = customFunction;
+        sealingMethod(el);
+        try { el.onclick = otherFunction; } catch(err) { }
+        writeAssertion(el.onclick === otherFunction, 'Can change existing event handler property (e.g. onclick)?');
+        
+        document.write('</div>');
+      }
+      
+      (function(){
+        if (Object.freeze) {
+          test('Frozen element', function(el){ Object.freeze(el); });
+        }
+        else {
+          document.write('<p>No <code>Object.freeze</code>. Skipping test.</p>');
+        }
+        if (Object.seal) {
+          test('Sealed element', function(el){ Object.seal(el); });
+        }
+        else {
+          return document.write('<p>No <code>Object.seal</code>. Skipping test.</p>');
+        }
+        if (Object.preventExtensions) {
+          test('Non-extensible element', function(el){ Object.preventExtensions(el); });
+        }
+        else {
+          return document.write('<p>No <code>Object.preventExtensions</code>. Skipping test.</p>');
+        }
+      })();
+    </script>
+  </body>
+</html>
