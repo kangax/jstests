@@ -107,13 +107,13 @@
           test('Sealed element', function(el){ Object.seal(el); });
         }
         else {
-          return document.write('<p>No <code>Object.seal</code>. Skipping test.</p>');
+          document.write('<p>No <code>Object.seal</code>. Skipping test.</p>');
         }
         if (Object.preventExtensions) {
           test('Non-extensible element', function(el){ Object.preventExtensions(el); });
         }
         else {
-          return document.write('<p>No <code>Object.preventExtensions</code>. Skipping test.</p>');
+          document.write('<p>No <code>Object.preventExtensions</code>. Skipping test.</p>');
         }
       })();
     </script>
