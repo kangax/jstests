@@ -101,19 +101,19 @@
           test('Frozen element', function(el){ Object.freeze(el); });
         }
         else {
-          document.write('<p>No <code>Object.freeze</code>. Skipping test.</p>');
+          document.write('<p style="float:left;margin-right:20px;">No <code>Object.freeze</code>. Skipping test.</p>');
         }
         if (Object.seal) {
           test('Sealed element', function(el){ Object.seal(el); });
         }
         else {
-          document.write('<p>No <code>Object.seal</code>. Skipping test.</p>');
+          document.write('<p style="float:left;margin-right:20px;">No <code>Object.seal</code>. Skipping test.</p>');
         }
         if (Object.preventExtensions) {
           test('Non-extensible element', function(el){ Object.preventExtensions(el); });
         }
         else {
-          document.write('<p>No <code>Object.preventExtensions</code>. Skipping test.</p>');
+          document.write('<p style="float:left;margin-right:20px;">No <code>Object.preventExtensions</code>. Skipping test.</p>');
         }
       })();
     </script>
