@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>What happens when non-standard insertion into a document occurs?</title>
+    <script type="text/javascript">
+      var el = document.createElement('div');
+      el.appendChild(document.createTextNode('This element is inserted into <HTML> element from within <HEAD>'));
+      
+      document.documentElement.appendChild(el);
+    </script>
+  </head><body>
+    <h1>This &lt;H1> is the first element in &lt;BODY></h1>
+    <script type="text/javascript">
+      alert(
+        'There\'s ' +
+        document.documentElement.childNodes.length + ' child nodes in <HTML> element' +
+        '\n\n' +
+        'These nodes are: ' +
+        (function(){
+          var childNodes = document.documentElement.childNodes;
+          var names = [ ];
+          for (var i = 0, len = childNodes.length; i < len; i++) {
+            names.push(childNodes[i].nodeName);
+          }
+          return names.join(', ');
+        })() +
+        '\n\n' +
+        'Contents of <HTML> element are: ' +
+        '\n\n' +
+        document.documentElement.innerHTML
+      );
+    </script>
+    <div>
+      <p>&lt;div> is inserted right after &lt;head> element in these browsers</p>
+      <ul>
+        <li>Chrome 7</li>
+        <li>Firefox 2, 3, 3.5, 4</li>
+        <li>Safari 2.0.4, 3.2.1, 4, 5</li>
+        <li>Opera 8.54, 9, 9.27, 9.50, 9.64, 10.10, 10.50, 10.60, 10.70</li>
+      </ul>
+    </div>
+  </body>
+</html>
