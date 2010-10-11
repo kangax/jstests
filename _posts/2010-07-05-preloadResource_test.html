@@ -42,8 +42,10 @@
           el = document.createElement('object');
           el.onload = onLoad;
           el.data = resourceUrl;
-          el.width = el.height = 0;
+          el.style.display = 'none';
+          
           document.body.appendChild(el);
+          // document.documentElement.insertBefore(el, document.documentElement.firstChild);
         }  
       };
       
