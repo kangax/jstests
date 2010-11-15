@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Testing whether removal of blocking script affects page rendering</title>
+    <style type="text/css">
+      .did, .did-not { padding: 3px 6px; color: #fff; border-radius: 4px; }
+      .did { background: green; }
+      .did-not { background: red; }
+      .info { background: #ffd; border: 1px solid #ccc; padding: 10px; display: inline-block; margin-top: 20px; }
+    </style>
+  </head>
+  <body>
+    <script>
+      
+      var startTime = new Date(),
+          delay = 1;
+          
+      document.write('<p>Inserting (via <code>document.write</code>) blocking script with delay of <b>' + (delay * 1000) + '</b> ms</p>');
+      
+      document.write('<script src="http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=' + delay + 
+        '&n=1&t=' + (Math.random() + '').slice(2) + '" id="s1"><\/script>');
+        
+      setTimeout(function() {
+        document.body.removeChild(document.getElementById('s1'));
+      }, 500);
+      
+    </script>
+    
+    <p>&hellip;</p>
+    
+    <script>
+      var endTime = new Date() - startTime
+          result = (endTime > (delay * 1000)) ? '<span class="did-not">DID NOT</span>' : '<span class="did">DID</span>';
+          
+      document.write('Time elapsed since insertion of blocking script: <b>' + endTime + '</b> ms');
+      document.write('<p>Looks like &lt;script> element removal ' + result + 
+        ' affect page rendering (i.e.: document parsing/rendering was still blocked after script removal)</p>');
+    </script>
+    
+    <div class="info">
+      <p>Browsers that <span class="did">DO</span> continue parsing document after blocking script removal:</p>
+      <ul>
+        <li>Opera 9.64, 10.10, 10.50, 10.60, 10.70, 11</li>
+        <li>IE 5.5, 6, 7, 8, 9</li>
+      </ul>
+      <p>Browsers that <span class="did-not">DO NOT</span> continue parsing document after blocking script removal:</p>
+      <ul>
+        <li>FF 3, 3.5, 3.6, 4</li>
+        <li>Chrome 9</li>
+      </ul>
+    </div>
+  </body>
+</html>
