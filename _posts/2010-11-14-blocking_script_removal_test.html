@@ -16,7 +16,7 @@
       var startTime = new Date(),
           delay = 1;
           
-      document.write('<p>Inserting (via <code>document.write</code>) blocking script with delay of <b>' + (delay * 1000) + '</b> ms</p>');
+      document.write('<p>Inserting (via <code>document.write</code>) blocking script with delay of <b>' + (delay * 1000) + '</b> ms, then removing it (with <code>removeChild</code>) in ~500 ms</p>');
       
       document.write('<script src="http://1.cuzillion.com/bin/resource.cgi?type=js&sleep=' + delay + 
         '&n=1&t=' + (Math.random() + '').slice(2) + '" id="s1"><\/script>');
@@ -50,5 +50,8 @@
         <li>Chrome 9</li>
       </ul>
     </div>
+    <p>
+      Also see <a href="http://lists.whatwg.org/pipermail/whatwg-whatwg.org/2010-November/029039.html">thread on WHATWG mailing list</a>
+    </p>
   </body>
 </html>
