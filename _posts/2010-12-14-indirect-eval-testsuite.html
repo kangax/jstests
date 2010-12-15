@@ -15,25 +15,29 @@
   </head>
   <body>
     <script>
+      var global = this;
+      
       function test(expression) {
-        var x = 'inner';
         document.write('<p>' + expression);
         
+        var uid = '_' + String(Math.random()).slice(2);
+        
+        expression = expression.replace('...', 'var ' + uid + ' = 123');
+        
         try {
-          var result = eval(expression);
-          if (result === 'inner') {
-            document.write(' <span class="inner">inner</span></p>');
-          }
-          else if (result === 'outer') {
+          eval(expression);
+          
+          if (global[uid] === 123) {
             document.write(' <span class="outer">outer</span></p>');
+          }
+          else {
+            document.write(' <span class="inner">inner</span></p>');
           }
         } 
         catch(err) {
           document.write(' <span class="error">error</span></p>');
         }
       }
-      
-      var x = 'outer';
       
       var globalEval = (function() {
 
@@ -61,42 +65,42 @@
       
       document.write('<h2>Direct calls</h2>');
       
-      test("eval('x')");
-      test("(eval)('x')");
-      test("(((eval)))('x')");
-      test("(function(){ return eval('x') })()");
-      test("eval('eval(\"x\")')");
-      test("(function(eval){ return eval('x'); })(eval)");
-      test('with({ eval: eval }) eval("x")');
-      test('with(window) eval("x")');
+      test("eval('...')");
+      test("(eval)('...')");
+      test("(((eval)))('...')");
+      test("(function(){ return eval('...') })()");
+      test("eval('eval(\"...\")')");
+      test("(function(eval){ return eval('...'); })(eval)");
+      test('with({ eval: eval }) eval("...")');
+      test('with(window) eval("...")');
       
       document.write('<h2>Indirect calls:</h2>');
       
-      test("(1, eval)('x')");
-      test("(eval, eval)('x')");
-      test("(1 ? eval : 0)('x')");
-      test("(0 || eval)('x')");
-      test("(__ = eval)('x')")
-      test("var e = eval; e('x')");
-      test("(function(e) { return e('x') })(eval)");
-      test("(function(e) { return e })(eval)('x')");
-      test("(function() { arguments[0]('x') })(eval)");
-      test("this.eval('x')");
-      test("this['eval']('x')");
-      test("window.eval('x')");
-      test("window.window.eval('x')");
-      test("self.eval('x')");
-      test("[eval][0]('x')");
-      test("({ eval: eval }).eval('x')");
-      test("eval.call(this, 'x')");
-      test("eval.call({ }, 'x')");
-      test("eval.apply(this, ['x'])");
-      test("eval('eval')('x')");
+      test("(1, eval)('...')");
+      test("(eval, eval)('...')");
+      test("(1 ? eval : 0)('...')");
+      test("(0 || eval)('...')");
+      test("(__ = eval)('...')")
+      test("var e = eval; e('...')");
+      test("(function(e) { return e('...') })(eval)");
+      test("(function(e) { return e })(eval)('...')");
+      test("(function() { arguments[0]('...') })(eval)");
+      test("this.eval('...')");
+      test("this['eval']('...')");
+      test("window.eval('...')");
+      test("window.window.eval('...')");
+      test("self.eval('...')");
+      test("[eval][0]('...')");
+      test("({ eval: eval }).eval('...')");
+      test("eval.call(this, '...')");
+      test("eval.call({ }, '...')");
+      test("eval.apply(this, ['...'])");
+      test("eval('eval')('...')");
       //test("Function('return eval(\"x\")')()");
-      test("(eval = eval)('x')");
-      test('with({ e: eval }) e("x")');
-      test('var o = { eval: eval }; o.eval("x")');
-      test('eval=(function(eval){return function(s){return eval(s)}})(eval); eval("x")');
+      test("(eval = eval)('...')");
+      test('with({ e: eval }) e("...")');
+      test('var o = { eval: eval }; o.eval("...")');
+      test('eval=(function(eval){return function(s){return eval(s)}})(eval); eval("...")');
       
     </script>
   </body>
