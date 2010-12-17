@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Does script element "onload" event handler fire when script is loaded?</title>
+    <style>
+      table { margin-top: 20px; border-collapse: collapse; }
+      td { border: 1px solid #ccc; padding: 5px; }
+      #log { display: inline-block; }
+      .pass { background: #cfc; }
+      .fail { background: #fcc; }
+    </style>
+    <script>
+      function onloadHandler() {
+        el.innerHTML = '"onload" event handler attribute works';
+        el.className = 'pass';
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Does script element "onload" event handler (&lt;script onload="...">) fire when script is loaded?</h2>
+    <div id="log"></div>
+    <script type="text/javascript">
+      var el = document.getElementById('log');
+      el.innerHTML = '"onload" event handler attribute doesn\'t seem to work';
+    </script>
+    <table>
+      <thead style="display:none"><tr><th>Browser</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>IE 9</td><td class="pass">Yes</td></tr>
+        <tr><td>IE 8</td><td class="fail">No</td></tr>
+        <tr><td>IE 7</td><td class="fail">No</td></tr>
+        <tr><td>IE 6</td><td class="fail">No</td></tr>
+        <tr><td>Chrome 9</td><td class="pass">Yes</td></tr>
+        <tr><td>Firefox 4</td><td class="pass">Yes</td></tr>
+        <tr><td>Firefox 3.6</td><td class="pass">Yes</td></tr>
+        <tr><td>Firefox 3</td><td class="pass">Yes</td></tr>
+        <tr><td>Firefox 2</td><td class="pass">Yes</td></tr>
+        <tr><td>Firefox 1.5</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 11</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 10.70</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 9.64</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 9.27</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 9</td><td class="pass">Yes</td></tr>
+        <tr><td>Opera 8.54</td><td class="fail">No</td></tr>
+        <tr><td>Safari 5</td><td class="pass">Yes</td></tr>
+        <tr><td>Safari 4</td><td class="pass">Yes</td></tr>
+        <tr><td>Safari 3.2</td><td class="pass">Yes</td></tr>
+        <tr><td>Safari 2.0.4</td><td class="fail">No</td></tr>
+      </tbody>
+    </table>
+    <script src="http://code.jquery.com/jquery-1.4.4.min.js" onload="onloadHandler()"></script>
+  </body>
+</html>
