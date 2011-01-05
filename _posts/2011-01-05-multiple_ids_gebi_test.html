@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title></title>
     <style>
-      #test, .arrow { float: left; padding: 3px; margin-right: 3px; width: 200px; }
+      #test, .arrow { padding: 3px; margin-bottom: 3px; width: 200px; }
       #test { background: #ddf; }
       .arrow { margin-top: 10px; }
-      #test1 { clear: left; }
+      #test1 { clear: both; }
     </style>
   </head>
   <body>
@@ -15,8 +15,13 @@
     <h2>Which element is returned by <code>document.getElementById</code>?</h2>
     
     <div id="test" title="test1">1st element w. id="test"</div>
+    <div id="test1" class="arrow" style="display: none">&uarr; This one</div>
+    
     <div id="test" title="test2">2nd element w. id="test"</div>
+    <div id="test2" class="arrow" style="display: none">&uarr; This one</div>
+    
     <div id="test" title="test3">3rd element w. id="test"</div>
+    <div id="test3" class="arrow" style="display: none">&uarr; This one</div>
     
     <script>
       (function(){
@@ -25,23 +30,23 @@
         clone.innerHTML = 'created via <code>cloneNode</code>';
         clone.title = 'test4';
         document.body.appendChild(clone);
-        
-        el = document.createElement('div');
+      })();
+    </script>
+    <div id="test4" class="arrow" style="display: none">&uarr; This one</div>
+    
+    <script>
+      (function(){
+        var el = document.createElement('div');
         el.id = 'test';
         el.innerHTML = 'created via <code>createElement</code>';
         el.title = 'test5';
         document.body.appendChild(el);
       })();
     </script>
-    
-    <div id="test1" class="arrow" style="visibility: hidden">&uarr; This one</div>
-    <div id="test2" class="arrow" style="visibility: hidden">&uarr; This one</div>
-    <div id="test3" class="arrow" style="visibility: hidden">&uarr; This one</div>
-    <div id="test4" class="arrow" style="visibility: hidden">&uarr; This one</div>
-    <div id="test5" class="arrow" style="visibility: hidden">&uarr; This one</div>
+    <div id="test5" class="arrow" style="display: none">&uarr; This one</div>
     
     <script>
-      document.getElementById(document.getElementById('test').title).style.visibility = 'visible';
+      document.getElementById(document.getElementById('test').title).style.display = '';
     </script>
   </body>
 </html>
