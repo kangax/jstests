@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Title</title>
+  </head>
+  <body>
+    <h2><a href="https://developer.mozilla.org/en/new_in_javascript_1.8">Expression closures tests</a></h2>
+    <script type="application/javascript;version=1.8">
+      try {
+        eval('function f()1');
+      }
+      catch(err) {
+        document.write('Function expressions are not supported');
+      }
+    </script>
+    <script type="application/javascript;version=1.8">
+      
+      function write(m){document.write(m + '<br>')}
+      
+      // 1
+      
+      // Can we use it as part of function declaration? Or only as function expression?
+      function f(x, y) x + y
+      // Yes, can be used as function declaration.
+      
+      // 2
+      
+      // What about named function expression?
+      document.write(function f(x, y) x + y);
+      document.write('<br>');
+      // Works
+      
+      // 3
+      
+      // What about function representation?
+      write(String(function (x) x + x ));
+      // Does not include curly braces
+      
+      // 4
+      
+      // What about non-standard name property?
+      f = function function_name(x, y) x + y;
+      write(f.name);
+      // Works
+      
+      // 5
+      
+      // How about immediately invoked function expression
+      var result = (function(x, y) x + y)(1, 2);
+      write(result);
+      // Works
+      
+      // 6
+      
+      // Alternative immediately invoked function expression
+      var f1 = (function(x, y) x + y)(1, 2);
+      var f2 = function(x, y) x + y (1, 2);
+      write('f1: ' + f1);
+      write('f2: ' + f2);
+      // Parens apply to inner statement
+      
+      // 7
+      
+      // What about ES5 accessor syntax (let's try getter first)
+      var obj = ({ get foo() 1 });
+      write(obj.foo);
+      // Works!
+      
+      // 8
+      
+      // How about setter?
+      var _x;
+      var obj = ({ set foo(x) _x = x });
+      obj.foo = 5;
+      write(_x);
+      // Works!
+      
+      // 9
+      
+      // How about both?
+      var _x = 'initial value';
+      var obj = ({ get foo() _x, set foo(x) _x = x });
+      write(obj.foo);
+      obj.foo = 'overwritten value';
+      write(obj.foo);
+      
+      // 10
+      
+      // Can we confuse parser with a comma?
+      try {
+        eval('({ set foo(x) bar = 1, baz = 2 })');
+      }
+      catch(err) {
+        write(err);
+      }
+      // SyntaxError. Uhuh...
+      
+      // 11
+      
+      // Are statements allowed?
+      try {
+        eval('var f = function() if (true) "foo" ');
+      }
+      catch(err) {
+        write(err);
+      }
+      // No
+      
+      // 12
+      
+      // Can body be omitted?
+      try {
+        eval('function f()');
+      }
+      catch(err) {
+        write(err);
+      }
+      // No
+      
+      // 13
+      
+      // What happens when we include more than 1 expression?
+      try {
+        eval('function f() write("1st statement"); write("2nd statement")');
+      }
+      catch(err) {
+        write(err);
+      }
+      // Only first one becomes function body
+      
+      // 14
+      
+      // Semicolon insertion?
+      function foo1(x) x
+      (function() {
+        /* ... */
+      })()
+      write(foo1);
+      // Yes, gets captured
+      
+      // 15
+      
+      // Is "{" interpreted as block or object literal
+      try {
+        eval('function foo2(x) { top: 0, left: 0 }');
+      }
+      catch(err) {
+        write(err);
+      }
+      // As block! Overall production essentially matches regular function syntax.
+      
+      // 16
+      
+      // What if it's an expression?
+      try {
+        eval('(function(x, y) { left: x, top: y })');
+      }
+      catch(err) {
+        write(err);
+      }
+      // Same thing. Treated as regular function syntax.
+      
+      function foo(x, y) "use strict"; 1 + 1;
+      write(typeof foo())
+      
+      // returning object
+      write((function() { x: 1 })());
+      write((function() ({ x: 1 }) )());
+      write((function() ({}) )());
+      
+    </script>
+  </body>
+</html>
