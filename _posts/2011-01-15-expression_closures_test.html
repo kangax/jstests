@@ -169,6 +169,11 @@
       write((function() ({ x: 1 }) )());
       write((function() ({}) )());
       
+      (function(){
+        "use strict";
+        write((function f()this)());
+      })(); 
+      
     </script>
   </body>
 </html>

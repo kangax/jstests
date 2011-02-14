@@ -1,23 +1,132 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-  "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
     <title></title>
+    <script>
+      function canvasSupported() {
+        return typeof document.createElement('canvas').getContext('2d') !== 'undefined';
+      }
+      var _left = 15, _top = 50;
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <style>
+      canvas { border: 1px dotted red; height: 70px; }
+      ol { padding-left: 5px; }
+      ol li { display: inline-block; margin-right: 10px; }
+      ul li { display: inline-block; margin-right: 0; }
+      .yes { background: #cfc; }
+      .no { background: #fcc; }
+      .yes, .no { padding: 3px 5px; }
+    </style>
   </head>
   <body>
-    <canvas width="250" height="100" id="canvas" style="border:1px dotted red"></canvas>
-    <script type="text/javascript">
-      (function(){
-        var el = document.getElementById('canvas');
-        if (el && el.getContext) {
-          var ctx = el.getContext('2d');
-          if (ctx) {
-            ctx.font = '30pt Arial';
-            ctx.fillText("Hello world", 25, 60);
+    <div>
+      <code>fillText/strokeText</code> are supported by:
+      <ul>
+        <li class="yes">Chr</li>
+        <li class="no">Saf 3.2</li>
+        <li class="yes">Saf 4</li>
+        <li class="yes">Saf 5</li>
+        <li class="no">Op 9.64</li>
+        <li class="no">Op 10.10</li>
+        <li class="yes">Op 10.50</li>
+        <li class="yes">Op 11</li>
+        <li class="no">FF 3</li>
+        <li class="yes">FF 3.5</li>
+        <li class="yes">FF 3.6</li>
+        <li class="yes">FF 4</li>
+      </ul>
+    </div>
+    <ol>
+      <li>
+        <p>fillText</p>
+        <canvas width="250" height="80" id="canvas1"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas1').getContext('2d');
+            //ctx.setTransform(1, 0, -0.2, 1, 0, 0);
+            ctx.font = '25pt Arial, sans-serif';
+            ctx.fillText("Hello world", _left, _top);
+            //ctx.setTransform(1, 0, 0, 1, 0, 0);
           }
-        }
-      })();
-    </script>
+        </script>
+      </li>
+      <li>
+        <p>strokeText</p>
+        <canvas width="250" height="80" id="canvas2"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas2').getContext('2d');
+            ctx.font = '25pt Arial';
+            ctx.strokeText("Hello world", _left, _top);
+          }
+        </script>
+      </li>
+      <li>
+        <p>fillText with serif font</p>
+        <canvas width="250" height="80" id="canvas3"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas3').getContext('2d');
+            ctx.font = '25pt Georgia, serif';
+            ctx.fillText("Hello world", _left, _top);
+          }
+        </script>
+      </li>
+      <li>
+        <p>fillText with different color</p>
+        <canvas width="250" height="80" id="canvas4"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas4').getContext('2d');
+            ctx.font = '25pt Arial';
+            ctx.fillStyle = 'red';
+            ctx.fillText("Hello world", _left, _top);
+            ctx.fillStyle = '#000';
+          }
+        </script>
+      </li>
+      <li>
+        <p>fillText with remote font</p>
+        <canvas width="250" height="80" id="canvas5"></canvas>
+        <script>
+          if (canvasSupported()) {
+            setTimeout(function() {
+              var ctx = document.getElementById('canvas5').getContext('2d');
+              ctx.font = '25pt Slackey';
+              ctx.fillText("Hello world", _left, _top);
+            }, 2000);
+          }
+        </script>
+      </li>
+      <li>
+        <p>fillText with shadow</p>
+        <canvas width="250" height="80" id="canvas6"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas6').getContext('2d');
+            ctx.font = '25pt Arial';
+            ctx.shadowColor = 'rgba(0,0,0,0.4)';
+            ctx.shadowOffsetX = ctx.shadowOffsetY = 3;
+            ctx.shadowBlur = 3;
+            ctx.fillText("Hello world", _left, _top);
+          }
+        </script>
+      </li>
+      <li>
+        <p>fillText with custom style</p>
+        <canvas width="250" height="80" id="canvas7"></canvas>
+        <script>
+          if (canvasSupported()) {
+            var ctx = document.getElementById('canvas7').getContext('2d');
+            ctx.font = 'italic 25pt Arial';
+            ctx.fillText("Hello world", _left, _top);
+          }
+        </script>
+      </li>
+    </ol>
+    
+    
   </body>
 </html>
