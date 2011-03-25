@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<p>How web inspector (Chrome 12.0.712.0) can't select element in an iframe if an element was created via <code>createElement</code> of <code>document</code> other than iframe's <code>document</code>. Only happens in Chrome, not WebKit (as of r81946)</p>
+		<iframe style="width:400px"></iframe>
+		<script>
+			(function(){
+				
+				var mainDoc = document;
+				var frameDoc = window.frames[0].document;
+				
+				var el = mainDoc.createElement('div');
+				var el2 = frameDoc.createElement('div');
+				
+				el.innerHTML = 'Element created via &lt;main document>.createElement';
+				el2.innerHTML = 'Element created via &lt;frame document>.createElement';
+				
+				frameDoc.body.appendChild(el);
+				frameDoc.body.appendChild(el2);
+			})();
+		</script>
+	</body>
+</html>
