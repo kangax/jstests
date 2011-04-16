@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="editable" contenteditable style="border:1px solid red; margin-bottom: 10px">
+			plain
+			<b>bold</b>
+			<i>italic</i>
+			<u>underline</u>
+			<del>deleted</del>
+			<strong>strong</strong>
+			<em>emphasis</em>
+			
+			<ul><li>foo</li><li>bar</li></ul>
+			
+			<ol><li>foo</li><li>bar</li></ol>
+			
+			<a href="http://example.com">link</a>
+			
+			<span style="color:red;text-decoration:underline">red, underline via style</span>
+			
+			<h1>heading l1</h1>
+			<h2>heading l2</h2>
+			<h3>heading l3</h3>
+			
+			<p style="font-size:small">&lt;p> w. small text</p>
+			<p style="font-size:medium">&lt;p> w. medium text</p>
+			<p style="font-size:large">&lt;p> w. large text</p>
+			<p style="font-size:x-large">&lt;p> w. x-large text</p>
+			
+			<span style="font-size:small">&lt;span> w. small text</span>
+			<br>
+			<span style="font-size:medium">&lt;span> w. medium text</span>
+			<br>
+			<span style="font-size:large">&lt;span> w. large text</span>
+			<br>
+			<span style="font-size:x-large">&lt;span> w. x-large text</span>
+		</div>
+		<button onclick="document.execCommand('removeFormat', false, null);">remove formatting</button>
+		<button onclick="document.execCommand('undo', false, null);">undo</button>
+	</body>
+</html>
