@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Testing canvas toDataURL with different mime types</title>
+    <style type="text/css">
+      body { font-family: Optima, sans-serif; }
+      .container { display: inline-block; margin-right: 10px; vertical-align: top; }
+      .container p { padding: 2px; text-align: center; }
+      .match p { background: green; color: #fff; }
+      img, canvas { border: 1px solid #ccc; }
+    </style>
+  </head>
+  <body>
+    <p style="padding: 10px; background: #ffc; border: 1px solid #ccc; line-height: 1.4">
+      Testing <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-canvas-todataurl"><code>canvas.toDataURL</code></a> with different mime types.<br>
+      Top label: <b>requested</b> mime type<br>
+      Bottom label: <b>actual</b> mime type<br>
+      Labels are highlighted in <span style="background:green;color:#fff;padding:2px 5px">green</span> when requested mime type matches actual one.
+    </p>
+    
+    <div class="container">
+      <p>canvas</p>
+      <canvas id="canvas" width="100" height="100"></canvas>
+    </div>
+    <script>
+      (function() {
+        
+        function insertImageWithType(type) {
+          var data = canvasEl.toDataURL(type);
+          var imgEl = document.createElement('img');
+          imgEl.src = data;
+          var labelEl = document.createElement('p');
+          labelEl.innerHTML = type;
+          var infoEl = document.createElement('p');
+          var actualType = data.replace(/^data:([^;]*).*/, '$1');
+          infoEl.innerHTML = actualType;
+          var containerEl = document.createElement('div');
+          containerEl.className = 'container';
+          if (type === actualType) {
+            containerEl.className += ' match';
+          }
+          containerEl.appendChild(labelEl);
+          containerEl.appendChild(imgEl);
+          containerEl.appendChild(infoEl);
+          document.body.appendChild(containerEl);
+        }
+        
+        var canvasEl = document.getElementById('canvas');
+        var ctx = canvasEl.getContext('2d');
+        ctx.fillStyle = 'red';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+        ctx.fillRect(10,10,30,30);
+        ctx.strokeRect(10.5,10.5,30,30);
+        
+        insertImageWithType('image/png');
+        insertImageWithType('image/jpeg');
+        insertImageWithType('image/jpg');
+        insertImageWithType('image/gif');
+        insertImageWithType('image/bmp');
+        insertImageWithType('image/tiff');
+        insertImageWithType('image/x-icon');
+        insertImageWithType('image/svg+xml');
+        insertImageWithType('image/webp');
+        insertImageWithType('image/xxx');
+      })();
+    </script>
+  </body>
+</html>
