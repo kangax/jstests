@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page Title</title>
+</head>
+<body>
+  <canvas id="c" style="border:1px solid #ccc; display: block" width="400"></canvas>
+  
+  <p>
+    <select onchange="renderWithGCO(this.value, document.getElementById('image-selector').value)" id="gco-selector">
+      <option>source-over</option>
+      <option>source-in</option>
+      <option>source-out</option>
+      <option>source-atop</option>
+      <option>lighter</option>
+      <option>xor</option>
+      <option>destination-over</option>
+      <option>destination-in</option>
+      <option>destination-out</option>
+      <option>destination-atop</option>
+      <option>darker</option>
+      <option>copy</option>
+    </select>
+
+    <select onchange="renderWithGCO(document.getElementById('gco-selector').value, this.value)" id="image-selector">
+      <option>pug.png</option>
+      <option>oval.png</option>
+    </select>
+  </p>
+  
+  <script>
+    var canvasEl = document.getElementById('c');
+    var ctx = canvasEl.getContext('2d');
+    
+    
+    function drawImage(src, x, y) {
+      var img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, x, y);
+      };
+      img.src = src;
+    }
+    
+    function renderWithGCO(gco, image) {
+      console.log(gco, image);
+      
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.globalCompositeOperation = gco;
+      
+      for (var i = 1; i < 19; i++) {
+        for (var j = 1; j < 7; j++) {
+          ctx.fillRect(i * 20, j * 20, 10, 10);
+        }
+      }
+
+      drawImage('canvas_globalcompositeoperation_test/' + image, 0, 0);
+    }
+    
+    renderWithGCO('source-over', 'pug.png');
+  </script>
+</body>
+</html>
