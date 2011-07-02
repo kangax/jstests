@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      ul { padding-left: 0 }
+      ul li { display: inline-block; margin-right: 0; }
+      .yes { background: #cfc; }
+      .no { background: #fcc; }
+      .yes, .no { padding: 3px 5px; }
+    </style>
+  </head>
+  <body>
+    isPointInPath
+    <script>
+      var canvasEl = document.createElement('canvas');
+      var ctx = canvasEl.getContext ? canvasEl.getContext('2d') : null;
+      if (ctx && typeof ctx.isPointInPath == 'function') {
+        document.write('<span class="yes">exists</span>');
+      }
+      else {
+        document.write('<span class="no">does NOT exist</span>');
+      }
+    </script>
+    
+    <div style="margin-top:10px">
+      <code>isPointInPath</code> supported by:
+      <ul>
+        <li class="yes">Chr</li>
+        <li class="yes">Saf 3.2</li>
+        <li class="yes">Saf 4</li>
+        <li class="yes">Saf 5</li>
+        <li class="yes">Op 9.64</li>
+        <li class="yes">Op 10.50</li>
+        <li class="yes">Op 11</li>
+        <li class="yes">FF 3</li>
+        <li class="yes">FF 3.5</li>
+        <li class="yes">FF 3.6</li>
+        <li class="yes">FF 4</li>
+      </ul>
+    </div>
+  </body>
+</html>
