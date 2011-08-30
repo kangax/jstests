@@ -3,11 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title></title>
+  <style>
+    .no-active { background: none; border: none; position: relative; }
+    .no-active:active { position: static !important; top: 0 !important; left: 0 !important; overflow: visible }
+    
+    .with-offset { position: relative; top: 0; left: 0; background: #eef; cursor: default; }
+    .with-offset:active { top: 2px; left: 2px; }
+  </style>
 </head>
 <body>
   <h3>Does clicking button trigger "mousemove" event on document?</h3>
   <h4>It does in at least IE 7, 8, and 9</h4>
-  <p><button>Click me!</button></p>
+  <p>
+    <button>Native styled button</button>
+    <button style="border:0">Borderless button</button>
+    <button style="border:0;background:none">Backgroundless button</button>
+    <button class="no-active">Button w. removed active style</button>
+    <span class="with-offset">Span element with :active offset</span>
+    <input type="button" value='input[type="button"]'>
+    <input type="checkbox">
+  </p>
   <div id="log"></div>
   <script>
     var logEl = document.getElementById('log');
