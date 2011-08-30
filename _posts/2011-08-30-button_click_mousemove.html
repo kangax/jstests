@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+  <h3>Does clicking button trigger "mousemove" event on document?</h3>
+  <h4>It does in at least IE 7, 8, and 9</h4>
+  <p><button>Click me!</button></p>
+  <div id="log"></div>
+  <script>
+    var logEl = document.getElementById('log');
+    document.onmousemove = function() {
+      logEl.appendChild(document.createTextNode('mousemove '));
+    };
+  </script>
+</body>
+</html>
