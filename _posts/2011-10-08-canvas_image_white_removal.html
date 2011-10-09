@@ -31,6 +31,7 @@
     #threshold-slider, #distance-slider { width: 300px }
     canvas { display: block }
     pre { background: #fff; display: inline-block; padding: 10px; box-shadow: 1px 1px 10px rgba(0,0,0,0.3); margin-top: 40px; border-radius: 5px }
+    img { position: absolute; top: -9999px; left: -9999px; }
   </style>
 </head>
 <body>
@@ -58,7 +59,7 @@
   </p>
   <p id="log"></p>
   <canvas id="c"></canvas>
-  <img src="../fixtures/kang.png" id="img" style="display:none">
+  <img src="../fixtures/kang.png" id="img">
   <pre>
 var limit = 255 - threshold, r, g, b;
 
