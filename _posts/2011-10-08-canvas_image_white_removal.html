@@ -26,9 +26,11 @@
     }
     h2, #log { color: #fff; }
     h2 { margin-bottom: 0; }
-    .controls { background: #ccc; padding: 10px; display: inline-block; margin-bottom: 0 }
-    #threshold-value { width: 30px }
-    #threshold-slider { width: 300px }
+    .controls { background: #ccc; padding: 10px; display: inline-block; margin-bottom: 0; border-radius: 5px }
+    #threshold-value, #distance-value { width: 30px }
+    #threshold-slider, #distance-slider { width: 300px }
+    canvas { display: block }
+    pre { background: #fff; display: inline-block; padding: 10px; box-shadow: 1px 1px 10px rgba(0,0,0,0.3); margin-top: 40px; border-radius: 5px }
   </style>
 </head>
 <body>
@@ -46,13 +48,37 @@
       </select>
     </label>
     <label>
-      Threshold: <input type="range" value="1" min="0" max="255" id="threshold-slider">
-      <input type="text" id="threshold-value" value="1">
+      Threshold: <input type="range" value="127" min="0" max="255" id="threshold-slider">
+      <input type="text" id="threshold-value" value="127">
+    </label>
+    <label>
+      Distance: <input type="range" value="25" min="0" max="255" id="distance-slider">
+      <input type="text" id="distance-value" value="25">
     </label>
   </p>
   <p id="log"></p>
   <canvas id="c"></canvas>
   <img src="../fixtures/kang.png" id="img" style="display:none">
+  <pre>
+var limit = 255 - threshold, r, g, b;
+
+for (var i = 0, n = pix.length; i < n; i += 4) {
+  
+  r = pix[i];
+  g = pix[i+1];
+  b = pix[i+2];
+      
+  if (r > limit && 
+      g > limit && 
+      b > limit && 
+      abs(r-g) < distance && 
+      abs(r-b) < distance &&
+      abs(g-b) < distance) {
+
+    pix[i+3] = 1;
+  }
+}
+  </pre>
   <script>
     window.onload = function() {
       
@@ -61,9 +87,14 @@
       var canvasWidth;
       var canvasHeight;
       var ctx = canvasEl.getContext('2d');
+      
       var whiteThresholdEl = document.getElementById('threshold-slider');
       var whiteThresholdValueEl = document.getElementById('threshold-value');
+      var distanceEl = document.getElementById('distance-slider');
+      var distanceValueEl = document.getElementById('distance-value');
       var logEl = document.getElementById('log');
+      
+      var abs = Math.abs;
       
       function logTime(time) {
         logEl.innerHTML = 'White removed in: ' + time + 'ms';
@@ -74,19 +105,31 @@
         canvasHeight = canvasEl.height = imgEl.height;
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.drawImage(imgEl, 0, 0);
-        var timeTaken = removeWhite(whiteThresholdEl.value);
+        var timeTaken = removeWhite(+whiteThresholdEl.value, +distanceEl.value);
         logTime(timeTaken);
         whiteThresholdValueEl.value = whiteThresholdEl.value;
+        distanceValueEl.value = distanceEl.value;
       }
       
-      function removeWhite(threshold) {
+      function removeWhite(threshold, distance) {
         var startTime = new Date();
         var imgData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
         var pix = imgData.data;
-        var limit = 255 - threshold;
+        var limit = 255 - threshold, r, g, b;
         
         for (var i = 0, n = pix.length; i < n; i += 4) {
-          if (pix[i] > limit && pix[i+1] > limit && pix[i+2] > limit) {
+          
+          r = pix[i];
+          g = pix[i+1];
+          b = pix[i+2];
+              
+          if (r > limit && 
+              g > limit && 
+              b > limit && 
+              abs(r-g) < distance && 
+              abs(r-b) < distance &&
+              abs(g-b) < distance) {
+
             pix[i+3] = 1;
           }
         }
@@ -98,6 +141,8 @@
       }
       
       document.getElementById('threshold-slider').onchange = render;
+      document.getElementById('distance-slider').onchange = render;
+      
       render();
       
       document.getElementById('img-selector').onchange = function() {
