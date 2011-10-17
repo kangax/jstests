@@ -32,15 +32,30 @@
     canvas { display: block }
     pre { background: #fff; display: inline-block; padding: 10px; box-shadow: 1px 1px 10px rgba(0,0,0,0.3); margin-top: 40px; border-radius: 5px }
     img { position: absolute; top: -9999px; left: -9999px; }
+    label { display: block; margin-bottom: 10px }
+    label span { width: 150px; display: inline-block; }
   </style>
 </head>
 <body>
   <h2>Canvas-based image white removal</h2>
   <p class="controls">
     <label>
-      Image:
+      <span>Canvas background:</span>
+      <select id="canvas-bg">
+        <option value="">None</option>
+        <option value="green">Green</option>
+        <option value="lightgreen">Light green</option>
+        <option value="rgb(255,0,0)">Red</option>
+        <option value="rgb(255,200,200)">Light red</option>
+      </select>
+    </label>
+    <label>
+      <span>Image:</span>
       <select id="img-selector">
         <option value="../fixtures/kang.png">Kangaroo (540x307)</option>
+        <option value="../fixtures/text.png">Text (560x419)</option>
+        <option value="../fixtures/mask.png">Mask (460x600)</option>
+        <option value="../fixtures/hockey.png">Hockey (680x680)</option>
         <option value="../fixtures/girl.jpg">Girl (1000x750)</option>
         <option value="../fixtures/balls.jpg">Balls (1280x768)</option>
         <option value="../fixtures/onion.jpg">Onion (1600x1067)</option>
@@ -49,11 +64,13 @@
       </select>
     </label>
     <label>
-      Threshold: <input type="range" value="30" min="0" max="255" id="threshold-slider">
+      <span>Threshold:</span>
+      <input type="range" value="30" min="0" max="255" id="threshold-slider">
       <input type="text" id="threshold-value" value="30">
     </label>
     <label>
-      Distance: <input type="range" value="200" min="0" max="255" id="distance-slider">
+      <span>Distance:</span>
+      <input type="range" value="200" min="0" max="255" id="distance-slider">
       <input type="text" id="distance-value" value="200">
     </label>
   </p>
@@ -149,6 +166,9 @@ for (var i = 0, n = pix.length; i < n; i += 4) {
       document.getElementById('img-selector').onchange = function() {
         imgEl.onload = render;
         imgEl.src = this.value;
+      };
+      document.getElementById('canvas-bg').onchange = function() {
+        canvasEl.style.background = this.value;
       };
     };
   </script>
