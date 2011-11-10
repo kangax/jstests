@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>outerHTML test</title>
+  <style>
+    .test, xmp, code { display: inline-block } 
+    code { width: 220px }
+    xmp { margin-left: 10px; background: #ffc; padding: 3px; box-shadow: 0 0 3px rgba(0,0,0,0.3) }
+    input { display: none }
+  </style>
+</head>
+<body>
+  <h2>outerHTML test</h2>
+  
+  <div>
+    <div id="test1" class="test"><p id=foo></div>
+    <script>document.write('<code>&lt;p id=foo></code><xmp>' + document.getElementById('test1').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+  
+  <div>
+    <div id="test2" class="test"><input /></div>
+    <script>document.write('<code>&lt;input /></code><xmp>' + document.getElementById('test2').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+  
+  <div>
+    <div id="test3" class="test"><input disabled></div>
+    <script>document.write('<code>&lt;input disabled></code><xmp>' + document.getElementById('test3').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+  
+  <div>
+    <div id="test4" class="test"><p class=">"></div>
+    <script>document.write('<code>&lt;p class=">"></code><xmp>' + document.getElementById('test4').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+  
+  <div>
+    <div id="test5" class="test"><p class='"'></div>
+    <script>document.write('<code>&lt;p class=\'"\'></code><xmp>' + document.getElementById('test5').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+  
+  <div>
+    <div id="test6" class="test"><form action="foo"></form></div>
+    <script>document.write('<code>&lt;form action="foo">&lt;/form></code><xmp>' + document.getElementById('test6').firstChild.outerHTML + '</xmp>');</script>
+  </div>
+</body>
+</html>
