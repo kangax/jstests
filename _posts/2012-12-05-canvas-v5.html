@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple existence tests of Canvas v5 API additions</title>
+  <script>
+    function test(expression) {
+      try {
+        var result = eval(expression);
+      }
+      catch(err) { }
+      document.write(result ? '<td class="yes">YES</td>' : '<td class="no">NO</td>');
+      document.write('<td>' + expression + '</td>');
+    }
+    var context = document.createElement("canvas").getContext("2d");
+  </script>
+  <style>
+    body { color: #333; text-align: left; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; }
+    table { border-spacing: 0; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+    td, th { padding: 5px 10px; border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-collapse: collapse; min-width: 100px; }
+    .yes { background: rgb(139, 184, 79); color: #fff; }
+    .no { background: #f88; color: #fff; }
+    a { color: blue; }
+    td:nth-child(4) { font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h2><a href="http://lists.whatwg.org/pipermail/whatwg-whatwg.org/2012-March/035239.html">Canvas v5 API</a> existence tests</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Test</th>
+        <th>Result</th>
+        <th>Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Path</td>
+        <script>test('typeof Path != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Ellipses</td>
+        <script>test('typeof context.ellipse != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Dashed lines</td>
+        <script>test('typeof context.setLineDash != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Text on a path</td>
+        <script>test('typeof (new Path).addText != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>DrawingStyle objects</td>
+        <script>test('typeof DrawingStyle != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Hit testing</td>
+        <script>test('typeof context.addHitRegion != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Path addition</td>
+        <script>test('typeof (new Path).addPath != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Additional measureText metrics</td>
+        <script>test('typeof context.measureText("foo").actualBoundingBoxLeft != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Pattern transform</td>
+        <script>test('typeof context.createPattern(new Image, "repeat").setTransform != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Reset clip region</td>
+        <script>test('typeof context.resetClip != "undefined"')</script>
+      </tr>
+      <tr>
+        <td>Reset transform</td>
+        <script>test('typeof context.resetTransform != "undefined"')</script>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
