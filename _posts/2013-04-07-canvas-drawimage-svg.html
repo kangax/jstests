@@ -5,11 +5,23 @@
   <meta charset='utf-8'>
   <style>
     body { color: #333; text-align: left; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; }
+    ul { display: inline-block; vertical-align: top; }
+    ul li { display: inline-block; margin-right: 0; }
+    .yes { background: #cfc; }
+    .no { background: #fcc; }
+    .yes, .no { padding: 3px 5px; }
   </style>
 </head>
 <body>
   <p><code>canvasContext.drawImage(SVG_IMAGE)</code></p>
   <canvas id="c" width="300" height="300" style="border: 1px solid #ccc"></canvas>
+  <ul>
+    <li class="yes">Chr 5+</li>
+    <li class="yes">Saf 4+</li>
+    <li class="yes">FF 4+</li>
+    <li class="yes">IE 9+</li>
+    <li class="no">Op 12</li>
+  </ul>
   <script>
     (function(){
       var canvas = document.getElementById('c');
