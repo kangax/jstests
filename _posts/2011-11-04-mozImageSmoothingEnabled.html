@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page Title</title>
+  <style>
+    div { display: inline-block; vertical-align: top; }
+  </style>
+</head>
+<body>
+  <div>
+    <p>Original</p>
+    <canvas width="128" height="128" id="orig" style="border:1px solid #ccc"></canvas>
+  </div>
+  <div>
+    <p>Smoothing enabled</p>
+    <canvas width="500" height="500" id="c1" style="border:1px solid #ccc"></canvas>
+  </div>
+  <div>
+    <p>Smoothing disabled</p>
+    <canvas width="500" height="500" id="c2" style="border:1px solid #ccc"></canvas>
+  </div>
+  
+  <script>
+    function draw(canvasId, smoothing) {
+      var ctx = document.getElementById(canvasId).getContext('2d'),
+          shouldSmooth = arguments.length > 1;
+          
+      ctx.mozImageSmoothingEnabled = smoothing;
+
+      var img = new Image;
+      img.onload = function() {
+        if (shouldSmooth) {
+          ctx.drawImage(img, 0, 0, 500, 500);
+        }
+        else {
+          ctx.drawImage(img, 0, 0);
+        }
+      };
+      img.src = 'http://cdn3.iconfinder.com/data/icons/supermario/PNG/Paper%20Mario.png';
+    }
+    
+    draw('orig');
+    draw('c1', true);
+    draw('c2', false);
+  </script>
+</body>
+</html>

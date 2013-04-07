@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset='utf-8'>
+  <style>
+    body { color: #333; text-align: left; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; }
+  </style>
+</head>
+<body>
+  <p><code>canvasContext.drawImage(SVG_IMAGE)</code></p>
+  <canvas id="c" width="300" height="300" style="border: 1px solid #ccc"></canvas>
+  <script>
+    (function(){
+      var canvas = document.getElementById('c');
+      if (!canvas.getContext) return;
+
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = '../fixtures/squirrel.svg';
+    })();
+  </script>
+</body>
+</html>

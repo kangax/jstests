@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>div { float: left; margin-right: 10px; }</style>
+</head>
+<body>
+  <div>
+    <p>canvas</p>
+    <canvas id="c" width="500" height="375"></canvas>
+  </div>
+  <div>
+    <p id="image-label">image/webp</p>
+    <img src="" id="output">
+  </div>
+  <script>
+    (function() {
+      
+      var canvasEl = document.getElementById('c'),
+          ctx = canvasEl.getContext('2d'),
+          imgEl = new Image;
+      
+      imgEl.onload = function() {
+        ctx.drawImage(imgEl, 0, 0);
+        
+        var startTime = new Date();
+        var dataUrl = canvasEl.toDataURL('image/webp');
+        var endTime = new Date() - startTime;
+        
+        document.getElementById('output').src = dataUrl;
+        document.getElementById('image-label').innerHTML = 
+          '<b>' + dataUrl.replace(/^data:(.*?);.*/, '$1') + '</b> (generated in ' + endTime + 'ms) ';
+      };
+      imgEl.src = '../fixtures/pug.jpg';
+    })();
+  </script>
+</body>
+</html>
