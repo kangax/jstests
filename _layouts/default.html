@@ -14,7 +14,7 @@
     <ul>
       {% for post in site.posts %}
         <li>
-          <a href="{{ post.url }}" title="">{{ post.title }}</a>
+          <a href="/jstests/{{ post.url }}" title="">{{ post.title }}</a>
           <span class="date">{{ post.date | date_to_string }}</span>
         </li>
       {% endfor %}
