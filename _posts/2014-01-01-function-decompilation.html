@@ -1,0 +1,12 @@
+---
+title: Function decompilation test
+---
+
+<script>
+function test(arg1, $foo, _BAR) {
+  return $foo
+    .something() / _BAR;
+}
+</script>
+
+<script>document.write('<pre>' + String(test) + '</pre>');</script>
