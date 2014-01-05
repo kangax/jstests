@@ -83,7 +83,9 @@ withName.name = 'someName';
       <td>
         <pre><script>document.write(String(Object))</script></pre>
       </td>
-      <td></td>
+      <td class="warning">
+        Some browsers (e.g. Konqueror) have unique "[function]" representation
+      </td>
     </tr>
     <tr>
       <td>Built-in</td>
@@ -119,8 +121,9 @@ function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
         <pre><script>document.write(String(test))</script></pre>
       </td>
       <td class="danger">
-        <p>Some of the browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code.</p>
-        Most of the browsers do <em>not</em> preserve space between function identifier and parameter list.
+        <p>Some browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code.</p>
+        Most of the browsers do <em>not</em> preserve space between function identifier and parameters list.
+        <p>Some browsers (e.g. Konqueror) insert newlines after parameters list and "inline" code.</p>
       </td>
     </tr>
     <tr>
@@ -138,7 +141,7 @@ var leftHand = function rightHand() { return };
       <td><pre>/* foo bar */ (((function test(){}) /* baz qux */ ))</pre></td>
       <td><pre><script>document.write(String(/* foo bar */ (((function test(){}) /* baz qux */ ))))</script></pre></td>
       <td class="danger">
-        Some browsers (e.g. IE) include comments <em>around</em> function into its string representation
+        Some browsers (e.g. IE&lt;9) include <em>comments AND spaces around</em> function into its string representation
       </td>
     </tr>
     <tr>
@@ -151,6 +154,7 @@ new Function('x, y', '/* comment */ return x + y')
       <td><pre><script>document.write(String(generated))</script></pre></td>
       <td class="warning">
         Some browsers (e.g. Chrome) include extra comments /**/ and/or newlines next to parameters list
+        <p>Some browsers (e.g. Konqueror) omit brackets surrounding function body</p>
       </td>
     </tr>
 
