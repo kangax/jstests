@@ -2,13 +2,27 @@
 title: Function decompilation test
 ---
 
-<script>
-function test(arg1, $foo, /* comment */ _BAR) {
+<style>
+  body { font-family: Palatino, serif; }
+  pre { font-family: Menlo, monospace; font-size: 13px; }
+  td, th { padding: 10px; }
+  th { background: #555; color: #eee; font-weight: normal; }
+  .separator { background: #ccc; color: #333; font-weight: bold; }
+  td { background: #efefef; }
+  .warning { background: rgb(241, 218, 190); }
+  .danger { background: rgb(246, 184, 173);}
+</style>
 
-  /* comment */
+<script>
+function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
+
+  /*
+    some
+    comment
+  */
 
   return $foo
-    .something()   /   _BAR;
+    .something()   /   _BAR  + /^reg\/ex$/gmi;
 
   1 + 1;
 }
@@ -19,22 +33,239 @@ if (f.bind) {
   var bound = f.bind({ });
 }
 var leftHand = function rightHand() { return };
+var generated = new Function('x, y', '/* comment */ return x + y');
+
+var withName = function () { };
+withName.name = 'someName';
+
 </script>
 
-<h3>native</h3>
-<script>document.write('<pre>' + String(Object) + '</pre>')</script>
-<hr>
-<h3>built-in</h3>
-<script>document.write('<pre>' + String(window.alert) + '</pre>')</script>
-<hr>
-<h3>user-defined</h3>
-<script>document.write('<pre>' + String(test) + '</pre>')</script>
-<hr>
-<h3>user-defined w. comments around</h3>
-<script>document.write('<pre>' + String( /* foo bar */ (((function test(){}) /* baz qux */ ))) + '</pre>')</script>
-<hr>
-<h3>user-defined &amp; bound</h3>
-<script>document.write('<pre>' + String(bound) + '</pre>')</script>
-<hr>
-<h3>user-defined NFE</h3>
-<script>document.write('<pre>' + String(leftHand) + '</pre>')</script>
+<script>
+  var a = () => 5;
+</script>
+
+<script>
+  function withRestParams(...args) {
+    return args;
+  }
+</script>
+
+<script>
+  var generator = (function* () { yield 1; });
+</script>
+
+<script>
+  function defaultParams(a = 1) { return a === 1; }
+</script>
+
+<script>
+  var expressionClosure = function(x, y) x + y
+</script>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Code</th>
+      <th>Result</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="4" class="separator">ES3</td>
+    </tr>
+    <tr>
+      <td>Native</td>
+      <td>
+        <pre>Object</pre>
+      </td>
+      <td>
+        <pre><script>document.write(String(Object))</script></pre>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Built-in</td>
+      <td><pre>window.alert</pre></td>
+      <td><pre><script>document.write(String(window.alert))</script></pre></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Built-in #2</td>
+      <td><pre>window.focus</pre></td>
+      <td><pre><script>document.write(String(window.focus))</script></pre></td>
+      <td class="warning">Some browsers (e.g. Chrome) omit identifier of some of the built-in methods</td>
+    </tr>
+    <tr>
+      <td>User-defined</td>
+      <td>
+<pre>
+function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
+
+  /*
+    some
+    comment
+  */
+
+  return $foo
+    .something()   /   _BAR  + /^reg\/ex$/gmi;
+
+  1 + 1;
+}
+</pre>
+      </td>
+      <td>
+        <pre><script>document.write(String(test))</script></pre>
+      </td>
+      <td class="danger">
+        <p>Some of the browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code.</p>
+        Most of the browsers do <em>not</em> preserve space between function identifier and parameter list.
+      </td>
+    </tr>
+    <tr>
+      <td>User-defined NFE</td>
+      <td>
+<pre>
+var leftHand = function rightHand() { return };
+</pre>
+      </td>
+      <td><pre><script>document.write(String(leftHand))</script></pre></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>User-defined NFE w. comments around</td>
+      <td><pre>/* foo bar */ (((function test(){}) /* baz qux */ ))</pre></td>
+      <td><pre><script>document.write(String(/* foo bar */ (((function test(){}) /* baz qux */ ))))</script></pre></td>
+      <td class="danger">
+        Some browsers (e.g. IE) include comments <em>around</em> function into its string representation
+      </td>
+    </tr>
+    <tr>
+      <td>User-defined &amp; generated</td>
+      <td>
+<pre>
+new Function('x, y', '/* comment */ return x + y')
+</pre>
+      </td>
+      <td><pre><script>document.write(String(generated))</script></pre></td>
+      <td class="warning">
+        Some browsers (e.g. Chrome) include extra comments /**/ and/or newlines next to parameters list
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="separator">Non-standard</td>
+    </tr>
+
+    <tr>
+      <td>User-defined &amp; with "name"</td>
+      <td>
+<pre>
+var withName = function() { };
+withName.name = 'someName';
+</pre>
+      </td>
+      <td><pre><script>document.write(String(withName))</script></pre></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Expression closures</td>
+      <td>
+<pre>
+var expressionClosure = function(x, y) x + y
+</pre>
+      </td>
+      <td><pre><script>document.write(String(expressionClosure))</script></pre></td>
+      <td class="warning">
+        Browsers that support expression closures (e.g. FF), represent them using <em>bracketless</em> notation
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="separator">ES5</td>
+    </tr>
+    <tr>
+      <td>User-defined &amp; bound</td>
+      <td>
+<pre>
+function f (x, y, /* comment */ z) {
+  return /* comment */ x + y;
+}
+var bound = f.bind({ });
+</pre>
+      </td>
+      <td><pre><script>document.write(String(bound))</script></pre></td>
+      <td class="danger">
+        Most (all?) of the browsers replace function code with "[native code]" when representing bound functions. Some browsers (e.g. WebKit) show <em>original function identifier</em> and some don't
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" class="separator">ES6</td>
+    </tr>
+    <tr>
+      <td>Arrow functions</td>
+      <td>
+<pre>
+var a = () => 5;
+</pre>
+      </td>
+      <td><pre><script>document.write(String(a))</script></pre></td>
+      <td class="warning">
+        Browsers that support arrow functions (e.g. FF24+), represent them using <code>() =></code> notation
+      </td>
+    </tr>
+    <tr>
+      <td>Functions with rest params</td>
+      <td>
+<pre>
+function withRestParams(...args) {
+  return args;
+}
+</pre>
+      </td>
+      <td><pre><script>document.write(String(withRestParams))</script></pre></td>
+      <td class="warning">
+        Browsers that support rest params (e.g. FF24+), represent them using <code>(...args)</code> notation
+      </td>
+    </tr>
+    <tr>
+      <td>Functions with default params</td>
+      <td>
+<pre>
+function defaultParams(a = 1) { return a === 1; }
+</pre>
+      </td>
+      <td><pre><script>document.write(String(defaultParams))</script></pre></td>
+      <td class="warning">
+        Browsers that support default params (e.g. FF24+), represent them using <code>arg = ...</code> notation
+      </td>
+    </tr>
+    <tr>
+      <td>Generators</td>
+      <td>
+<pre>
+var generator = (function* () { yield 1; });
+</pre>
+      </td>
+      <td><pre><script>document.write(String(generator))</script></pre></td>
+      <td class="warning">
+        Browsers that support generators (e.g. FF24+), represent them using <code>function*</code> notation
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<script>
+  // var proxy = Proxy.createFunction({
+  //     get: function(receiver, name) {
+  //       if (name === 'toString') {
+  //         return function () { return 'foo' };
+  //       }
+  //     }
+  //   },
+  //   console.log.bind(console, 'call'),
+  //   console.log.bind(console, 'construct'));
+</script>
