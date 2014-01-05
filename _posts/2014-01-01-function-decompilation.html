@@ -123,7 +123,7 @@ function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
       <td class="danger">
         <p>Some browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code.</p>
         Most of the browsers do <em>not</em> preserve space between function identifier and parameters list.
-        <p>Some browsers (e.g. Konqueror) insert newlines after parameters list and "inline" code.</p>
+        <p>Some browsers (e.g. Konqueror) insert newlines after parameters list; they also "inline" code (e.g. 1+1 becomes 2)</p>
       </td>
     </tr>
     <tr>
@@ -141,7 +141,7 @@ var leftHand = function rightHand() { return };
       <td><pre>/* foo bar */ (((function test(){}) /* baz qux */ ))</pre></td>
       <td><pre><script>document.write(String(/* foo bar */ (((function test(){}) /* baz qux */ ))))</script></pre></td>
       <td class="danger">
-        Some browsers (e.g. IE&lt;9) include <em>comments AND spaces around</em> function into its string representation
+        Some browsers (e.g. IE&lt;9) include <em>comments AND spaces around</em> function in its string representation
       </td>
     </tr>
     <tr>
