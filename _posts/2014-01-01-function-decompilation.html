@@ -8,7 +8,7 @@ function test(arg1, $foo, /* comment */ _BAR) {
   /* comment */
 
   return $foo
-    .something() / _BAR;
+    .something()   /   _BAR;
 
   1 + 1;
 }
@@ -18,6 +18,7 @@ function f (x, y, /* comment */ z) {
 if (f.bind) {
   var bound = f.bind({ });
 }
+var leftHand = function rightHand() { return };
 </script>
 
 <h3>native</h3>
@@ -34,3 +35,6 @@ if (f.bind) {
 <hr>
 <h3>user-defined &amp; bound</h3>
 <script>document.write('<pre>' + String(bound) + '</pre>')</script>
+<hr>
+<h3>user-defined NFE</h3>
+<script>document.write('<pre>' + String(leftHand) + '</pre>')</script>
