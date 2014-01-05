@@ -12,7 +12,9 @@ function test(arg1, $foo, /* comment */ _BAR) {
 
   1 + 1;
 }
-function f(){ return x + y; }
+function f (x, y, /* comment */ z) {
+  return /* comment */ x + y;
+}
 if (f.bind) {
   var bound = f.bind({ });
 }
