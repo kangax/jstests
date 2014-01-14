@@ -35,6 +35,17 @@ function f (x, y, /* comment */ z) {
 if (f.bind) {
   var bound = f.bind({ });
 }
+
+function use_strict (x, y) {
+  "use strict";
+  return x + y;
+}
+
+function use_asm (x, y) {
+  "use asm";
+  return x + y;
+}
+
 var leftHand = function rightHand() { return };
 var generated = new Function('x, y', '/* comment */ return x + y');
 
@@ -193,6 +204,21 @@ var expressionClosure = function(x, y) x + y
         Browsers that support expression closures (e.g. FF), represent them using <em>bracketless</em> notation
       </td>
     </tr>
+    <tr>
+      <td>"use asm"</td>
+      <td>
+<pre>
+function use_asm (x, y) {
+  "use asm";
+  return x + y;
+}
+</pre>
+      </td>
+      <td><pre><script>document.write(String(use_asm))</script></pre></td>
+      <td>
+      Some browsers (e.g. FF&lt;17) strip "use asm" statement, likely considering it "dead code".
+      </td>
+    </tr>
 
     <tr>
       <td colspan="4" class="separator">ES5</td>
@@ -212,6 +238,21 @@ var bound = f.bind({ });
         Most (all?) of the browsers replace function code with "[native code]" when representing bound functions. Some browsers (e.g. WebKit) show <em>original function identifier</em> and some don't
       </td>
     </tr>
+        <tr>
+          <td>"use strict"</td>
+          <td>
+<pre>
+function use_strict (x, y) {
+  "use strict";
+  return x + y;
+}
+</pre>
+          </td>
+          <td><pre><script>document.write(String(use_strict))</script></pre></td>
+          <td>
+          Some browsers (e.g. FF&lt;4) strip "use strict" statement, likely considering it "dead code".
+          </td>
+        </tr>
     <tr>
       <td colspan="4" class="separator">ES6</td>
     </tr>
