@@ -24,10 +24,14 @@ function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
   noOpStatement;
   nonexistentIdentifier();
 
+  alert(1 + 1);
+
+  if (false) { return 123 }
+
   return $foo
     .something()   /   _BAR  + /^reg\/ex$/gmi;
 
-  1 + 1;
+  somethingElse();
 }
 function f (x, y, /* comment */ z) {
   return /* comment */ x + y;
@@ -128,10 +132,14 @@ function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
   noOpStatement;
   nonexistentIdentifier();
 
+  alert(1 + 1);
+
+  if (false) { return 123 }
+
   return $foo
     .something()   /   _BAR  + /^reg\/ex$/gmi;
 
-  1 + 1;
+  somethingElse();
 }
 </pre>
       </td>
@@ -139,9 +147,9 @@ function test   (arg1, $foo, /* comment */ _BAR)   { // inline comment
         <pre><script>document.write(String(test))</script></pre>
       </td>
       <td class="danger">
-        <p>Some browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code.</p>
+        <p>Some browsers (e.g. FF&lt;17) <em>strip</em> all comments and "dead" code (<code>if (false) ...</code>, <code>{ }</code>, statements after <code>return</code>, etc.). They also "inline" code (<code>1+1</code> becomes <code>2</code>, etc.)</p>
         Most of the browsers do <em>not</em> preserve space between function identifier and parameters list.
-        <p>Some browsers (e.g. Konqueror) insert newlines after parameters list; they also "inline" code (e.g. 1+1 becomes 2)</p>
+        <p>Some browsers (e.g. Konqueror) insert newlines after parameters list and also "inline" code.</p>
       </td>
     </tr>
     <tr>
@@ -215,7 +223,7 @@ function use_asm (x, y) {
 </pre>
       </td>
       <td><pre><script>document.write(String(use_asm))</script></pre></td>
-      <td>
+      <td class="warning">
       Some browsers (e.g. FF&lt;17) strip "use asm" statement, likely considering it "dead code".
       </td>
     </tr>
@@ -249,7 +257,7 @@ function use_strict (x, y) {
 </pre>
           </td>
           <td><pre><script>document.write(String(use_strict))</script></pre></td>
-          <td>
+          <td class="warning">
           Some browsers (e.g. FF&lt;4) strip "use strict" statement, likely considering it "dead code".
           </td>
         </tr>
