@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Unspecified Array.prototype.sort() behaviour</title>
+  <style>
+    code { white-space: pre-wrap; }
+    xmp { margin-left: 10px; background: #ffc; padding: 3px; box-shadow: 0 0 3px rgba(0,0,0,0.3) }
+    xmp.error { background: #fee; }
+    input { display: none }
+  </style>
+</head>
+<body>
+  <h2>Unspecified Array.prototype.sort() behaviour</h2>
+  <p>The <a href="http://es6.github.io/">ECMAScript 6 specification</a> declares the results of the following expressions to be "implementation-defined":</p>
+  <div>
+    <code>
+["A","C","B"].sort({});
+    </code>
+    <script>
+    String.prototype.xmp = function(error) { return "<xmp" + (error ? " class='error'" : "") + ">" + this + "</xmp>"; };
+    Array.prototype.toString = function() {
+        var ret = "[";
+        for (var i = 0; i < this.length; i++) {
+            if (i in this) {
+                if (typeof this[i] === "string") {
+                    ret += '"' + this[i] + '"';
+                } else {
+                    ret += this[i];
+                }
+            }           
+            if (i < this.length-1) {
+              ret += ",";
+            }
+        }
+        return ret + "]";
+    };
+    try {
+        var a = ["A","C","B"].sort({});
+        document.write(a.toString().xmp());
+    }
+    catch(e) {
+        document.write(e.message.xmp(true));
+    }
+    </script>
+  </div>
+  
+  <div>
+    <code>
+var a = ["A",,"B","C"];
+a.__proto__ = [,"D"];
+a.sort();
+    </code>
+    <script>
+    try {
+        var a = ["A",,"B","C"];
+        a.__proto__ = [,"D"];
+        a.sort();
+        document.write(a.toString().xmp());
+    }
+    catch(e) {
+        document.write(e.message.xmp(true));
+    }
+    </script>
+  </div>
+  
+  <div>
+    <code>
+Object.preventExtensions([,"C","B","A"]).sort();
+    </code>
+    <script>
+    try {
+        var a = Object.preventExtensions([,"C","B","A"]).sort();
+        document.write(a.toString().xmp());
+    }
+    catch(e) {
+        document.write(e.message.xmp(true));
+    }
+    </script>
+  </div>
+  
+  <div>
+    <code>
+var a = [,"A"];
+Object.defineProperty(a,0,{value:"B",writable:false});
+a.sort();
+    </code>
+    <script>
+    try {
+        var a = [,"A"];
+        Object.defineProperty(a,0,{value:"B",writable:false});
+        a.sort();
+        document.write(a.toString().xmp());
+    }
+    catch(e) {
+      document.write(e.message.xmp(true));
+    }
+    </script>
+  </div>
+  
+    <div>
+    <code>
+var a = ["A",,];
+Object.defineProperty(a,2,{value:"B", writable:true, configurable:false});
+a.sort();
+    </code>
+    <script>
+    try {
+        var a = ["A",,];
+        Object.defineProperty(a,2,{value:"B", writable:true, configurable:false});
+        a.sort();
+        document.write(a.toString().xmp());
+    }
+    catch(e) {
+      document.write(e.message.xmp(true));
+    }
+    </script>
+  </div>
+  
+</body>
+</html>
