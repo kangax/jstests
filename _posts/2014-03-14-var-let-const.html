@@ -1,0 +1,407 @@
+---
+title: var, let, const tests
+---
+
+<style>
+  body { font-family: Helvetica, sans-serif; }
+  .yep { background: green; color: #fff; padding: 5px; }
+  .nope { background: red; color: #fff; padding: 5px; }
+  .err { background: #eee; }
+  table { border-collapse: collapse; font-size: 13px; }
+  td, th { padding: 10px; border: 1px solid #ccc; text-align: center; }
+  td:nth-child(1), td:nth-child(2) { text-align: left; }
+  td:nth-child(1) { width: 300px; }
+  .strict { background: #eef; }
+</style>
+
+<h2>let &amp; const tests</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Info</th>
+      <th>Code</th>
+      <th>This browser</th>
+      <th>Chrome 35</th>
+      <th>Chrome 35 (harmony)</th>
+      <th>FF 30</th>
+      <th>WebKit</th>
+      <th>IE10,11</th>
+      <th>Node 0.10</th>
+      <th>Node 0.10 harmony</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Does const declare a variable?</td>
+      <td>
+<pre>
+const foo = 1;
+typeof foo === 'number';
+</pre>
+      </td>
+      <script>
+        (function() {
+          try {
+            eval('const foo = 1');
+            document.write((typeof foo === 'number' ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            document.write('<td class="err">' + err + '</td>');
+          }
+        })();
+      </script>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+      <td class="nope">No</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr class="strict">
+      <td>Does const declare a variable? (<b>strict mode</b>)</td>
+      <td>
+<pre>
+'use strict';
+const foo = 1;
+typeof foo === 'number';
+</pre>
+      </td>
+      <script>
+        (function() {
+          'use strict';
+          try {
+            eval('const foo = 1');
+            document.write((typeof foo === 'number' ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            document.write('<td class="err">' + err + '</td>');
+          }
+        })();
+      </script>
+      <td class="err">SyntaxError: Use of const in strict mode.</td>
+      <td class="nope">No</td>
+      <td class="nope">No</td>
+      <td class="err">SyntaxError: Unexpected keyword 'const'. Const declarations are not supported in strict mode.</td>
+      <td class="nope">No</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr>
+      <td colspan="10"></td>
+    </tr>
+    <tr>
+      <td>Does const make var immutable?</td>
+      <td>
+<pre>
+const foo = 1;
+foo = 2;
+foo === 1;
+</pre>
+      </td>
+      <script>
+        (function() {
+          try {
+            eval('const foo = 1; foo = 2');
+            document.write((foo === 1 ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            try {
+              document.write((foo === 1 ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+            }
+            catch(err) {
+              document.write('<td class="err">Error</td>');
+            }
+          }
+        })();
+      </script>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+      <td class="nope">No</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr class="strict">
+      <td>Does const make var immutable? (<b>strict mode</b>)</td>
+      <td>
+<pre>
+'use strict';
+const foo = 1;
+foo = 2;
+</pre>
+      </td>
+      <script>
+        (function() {
+          'use strict';
+
+          try {
+            eval('const foo = 1; foo = 2');
+            document.write((foo === 1 ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            try {
+              document.write((foo === 1 ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+            }
+            catch(err) {
+              document.write('<td class="err">n/a</td>');
+            }
+          }
+        })();
+      </script>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr>
+      <td colspan="10"></td>
+    </tr>
+    <tr>
+      <td>Does let declare a variable?</td>
+      <td>
+<pre>
+let foo = 1;
+typeof foo === 'number';
+</pre>
+      </td>
+      <script>
+        (function() {
+          try {
+            eval('let foo = 1');
+            document.write((typeof foo === 'number' ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            document.write('<td class="err">' + err + '</td>');
+          }
+        })();
+      </script>
+      <td class="err">SyntaxError: Unexpected identifier</td>
+      <td class="err">SyntaxError: Illegal let declaration outside extended mode</td>
+      <td class="err">SyntaxError: missing ; before statement</td>
+      <td class="err">SyntaxError: Unexpected identifier 'foo'</td>
+      <td class="nope">No</td>
+      <td class="err">Unexpected identifier</td>
+      <td class="err">Illegal let declaration outside extended mode</td>
+    </tr>
+    <tr class="strict">
+      <td>Does let declare a variable? (<b>strict mode</b>)</td>
+      <td>
+<pre>
+'use strict';
+let foo = 1;
+typeof foo === 'number';
+</pre>
+      </td>
+      <script>
+        (function() {
+          'use strict';
+          try {
+            eval('let foo = 1');
+            document.write((typeof foo === 'number' ? '<td class="yep">Yes</td>' : '<td class="nope">No</td>'));
+          }
+          catch(err) {
+            document.write('<td class="err">' + err + '</td>');
+          }
+        })();
+      </script>
+      <td class="err">SyntaxError: Unexpected strict mode reserved word</td>
+      <td class="nope">No</td>
+      <td class="err">SyntaxError: let is a reserved identifier</td>
+      <td class="err">SyntaxError: Unexpected use of reserved word 'let' in strict mode</td>
+      <td class="nope">No</td>
+      <td class="err">SyntaxError: Unexpected strict mode reserved word</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr><td colspan="10"></td></tr>
+    <tr>
+      <td>Is let block-local?</td>
+      <td>
+<pre>
+if (1) { let foo = 1; }
+typeof foo === 'undefined';
+</pre>
+      </td>
+      <script>
+        try {
+          eval('(function(){ var bar; if (1) { let foo = 1; bar = foo; } document.write((typeof foo === "undefined" && typeof bar === "number" ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); })()');
+        }
+        catch(err) {
+          document.write('<td class="err">n/a</td>');
+        }
+      </script>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+    </tr>
+    <tr class="strict">
+      <td>Is let block-local? (<b>strict mode</b>)</td>
+      <td>
+<pre>
+'use strict';
+if (1) { let foo = 1; }
+typeof foo === 'undefined';
+</pre>
+      </td>
+      <script>
+        'use strict';
+        try {
+          eval('(function(){ var bar; if (1) { let foo = 1; bar = foo; } document.write(((typeof foo === "undefined" && typeof bar === "number") ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); })()');
+        }
+        catch(err) {
+          document.write('<td class="err">n/a</td>');
+        }
+      </script>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr><td colspan="10"></td></tr>
+    <tr>
+      <td>Does let declare non-writable variable?</td>
+      <td>
+<pre>
+if (x) {
+  let foo = 1;
+  let foo = '1';
+  typeof foo === 'number';
+}
+</pre>
+      </td>
+      <script>
+        try {
+          eval('(function(){ if (1) { let foo = 1; let foo = "1"; document.write((typeof foo === "number" ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); } })()');
+        }
+        catch(err) {
+          try {
+            document.write(typeof foo === "number"
+              ? "<td class=yep>Yes</td>" : typeof foo === 'string'
+                ? "<td class=nope>No</td>" : "<td class=err>n/a</td>");
+          }
+          catch(err) {
+            document.write('<td class="err">n/a</td>');
+          }
+        }
+      </script>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="nope">No</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+    </tr>
+    <tr class="strict">
+      <td>Does let create non-writeable variable? (<b>strict mode</b>)</td>
+      <td>
+<pre>
+'use strict';
+if (x) {
+  let foo = 1;
+  let foo = '1';
+  typeof foo === 'number';
+}
+</pre>
+      </td>
+      <script>
+        'use strict';
+        try {
+          eval('(function(){ if (1) { let foo = 1; let foo = "1"; document.write((typeof foo === "number" ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); } })()');
+        }
+        catch(err) {
+          try {
+            document.write(typeof foo === "number"
+              ? "<td class=yep>Yes</td>" : typeof foo === 'string'
+                ? "<td class=nope>No</td>" : "<td class=err>n/a</td>");
+          }
+          catch(err) {
+            document.write('<td class="err">n/a</td>');
+          }
+        }
+      </script>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="err">n/a</td>
+      <td class="nope">No</td>
+      <td class="err">n/a</td>
+      <td class="yep">Yes</td>
+    </tr>
+    <tr><td colspan="10"></td></tr>
+    <tr>
+      <td>Is let block-local in <code>type="application/javascript;version=1.8"</code>?</td>
+      <td>
+<pre>
+{ let foo = 1; }
+typeof foo === 'undefined';
+</pre>
+      </td>
+      <script type="application/javascript;version=1.8">
+        var __script1ran = true;
+        try {
+          eval('(function(){ { let foo = 1; } document.write((typeof foo === "undefined" ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); })()');
+        }
+        catch(err) {
+          document.write('<td class="err">' + err + '</td>');
+        }
+      </script>
+      <script>
+        if (typeof __script1ran == 'undefined') {
+          document.write('<td>Doesn\'t run</td>');
+        }
+      </script>
+      <td>Doesn't run</td>
+      <td>Doesn't run</td>
+      <td class="yep">Yes</td>
+      <td>Doesn't run</td>
+      <td>Doesn't run</td>
+      <td>n/a</td>
+      <td>n/a</td>
+    </tr>
+    <tr class="strict">
+      <td>Is let block-local in <code>type="application/javascript;version=1.8"</code> (<b>strict mode</b>)?</td>
+      <td>
+<pre>
+'use strict';
+{ let foo = 1; }
+typeof foo === 'undefined';
+</pre>
+      </td>
+      <script type="application/javascript;version=1.8">
+        var __script2ran = true;
+        'use strict';
+        try {
+          eval('(function(){ { let foo = 1; } document.write((typeof foo === "undefined" ? "<td class=yep>Yes</td>" : "<td class=nope>No</td>")); })()');
+        }
+        catch(err) {
+          document.write('<td class="err">' + err + '</td>');
+        }
+      </script>
+      <script>
+        if (typeof __script2ran == 'undefined') {
+          document.write('<td>Doesn\'t run</td>');
+        }
+      </script>
+      <td>Doesn't run</td>
+      <td>Doesn't run</td>
+      <td class="yep">Yes</td>
+      <td>Doesn't run</td>
+      <td>Doesn't run</td>
+      <td>n/a</td>
+      <td>n/a</td>
+    </tr>
+  </tbody>
+</table>
