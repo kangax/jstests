@@ -15,8 +15,8 @@ title: innerText
     width: 49%;
     height: 100%;
     font-family: "Courier New", "Courier", monospace;
-    font-size: 15px;
-    height: 800px;
+    font-size: 13px;
+    height: 1200px;
   }
   .hidden {
     visibility: hidden;
@@ -81,19 +81,27 @@ title: innerText
     <td class="no">No</td>
   </tr>
   <tr>
-    <td>Preserves uppercased text</td>
-    <td class="no">No</td>
-    <td class="no">No</td>
+    <td>Creates newline around block, non-paragraph elements</td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
   </tr>
   <tr>
-    <td>Puts spaces between &lt;td&gt; tags</td>
+    <td>Creates newline around inline, block-styled elements</td>
     <td class="no">No</td>
     <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Respects white-space:pre</td>
     <td class="no">No</td>
     <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
     <td class="yes">Yes</td>
   </tr>
   <tr>
@@ -105,27 +113,19 @@ title: innerText
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Creates newline around inline, block-styled elements</td>
+    <td>Puts spaces between &lt;td&gt; tags</td>
     <td class="no">No</td>
     <td class="no">No</td>
-    <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Creates newline around block, non-paragraph elements</td>
-    <td class=""></td>
-    <td class=""></td>
-    <td class=""></td>
-    <td class="yes">Yes</td>
-    <td class="no">No</td>
-  </tr>
-  <tr>
-    <td>Respects white-space:pre</td>
+    <td>Preserves uppercased text</td>
     <td class="no">No</td>
     <td class="no">No</td>
-    <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
     <td class="yes">Yes</td>
   </tr>
 
@@ -136,7 +136,7 @@ title: innerText
 
 
 
-<div id="example" style="position: absolute; top: 0; left: -9999px">
+<div id="test1" style="position: absolute; top: 0; left: -9999px">
 <div>div1</div>
 <div>div2</div>
 <table>
@@ -173,6 +173,9 @@ title: innerText
 </p>
 <p style="visibility:hidden">
   This should not show (visibility:hidden in stylesheet).
+</p>
+<p style="text-indent: -9999px">
+  This text has font-size: 0
 </p>
 <!-- <p>This should not show (comment).</p>-->
 <p>
@@ -218,7 +221,108 @@ text.
 </select>
 </div>
 
+<div id="test2" contenteditable style="position: absolute; top: 0; left: -9999px">
+  <p> He<strong>llo!</strong>
+  <p>Hello <span>to you </span>too.
+  <p style=display:none>Secret
+  <div> </div>
+  <hr>
+  <p style=visibility:hidden>Abc<span style=visibility:visible>def</span>
+  <script>//</script>
+  <div><div><div> Nesty </div></div></div>
+  <div style=margin:1em>Margined div</div>
+  <table>
+    <tr><th>Stuff<th>More stuff <th>Even more stuff
+    <tr><td> Data  <td>More data <td>..
+    <tr><td>? <td> <td>Last cell was empty!
+    <tr><td><td><td>Last two cells empty
+  </table>
+  <pre> Preformatted </pre>
+  <pre>
+Also
+  pre
+     formatted
+  </pre>
+  <div style=white-space:pre> Preformatted
+    div</div>
+  <div style=white-space:pre-line> Pre-
+    line
+  </div>
+  <div style=white-space:nowrap> No
+    wrap
+  </div>
+  <div style=white-space:pre-wrap> Pre-
+    wrap
+  </div>
+  <div style=float:left> Float left </div>
+  <div> Normal div </div>
+  <div style=float:right> Float right </div>
+  <div> Normal div </div>
+
+  <div style=float:left> Float left </div>
+  <div style=clear:left> Left-cleared div </div>
+
+  An <table style="display:inline"> <tr><td>Inline <td>Table</table>.  Line
+  break:
+
+  <br>
+
+  Two line breaks:<br><br>
+
+  Three line breaks:<br><br><br>
+
+  An <table style="display:inline"><tr><td>Inline <td>table<tr><td>with
+  <td>multiple rows</table>.
+
+  <p style="content: ' You should see this generated content \A'">You should not
+  see this un-generated content
+
+  <p class=before>Is there text before this?
+
+  <p class=after>Is there text after this?
+
+  <p style="text-transform:uppercase">Transformed to uppercase
+
+  <p style="text-transform:lowercase">Transformed to lowercase
+
+  <p style="text-transform:capitalize">Transformed to titlecase
+
+  <ul>
+  <li> Unordered
+  <li> List
+  </ul>
+
+  <ol>
+  <li> Ordered
+  <li> List
+  </ol>
+
+  <p>Let's <span style="display:block">test </span>anonymous blocks!
+
+  <table border=1>
+  <caption>Table caption</caption>
+  <tr><td>Regular <td>old
+  <tr><td>data <td>table
+  </table>
+
+  <table border=1>
+  <caption>Table caption</caption>
+  <tr><td><p>Table cell <p>with <p>paragraphs <td>Cell 2
+  <tr><td>Next <td>row
+  </table>
+
+  <div style="position:relative;height:200px;width:200px">
+  <div style="position:absolute;right:0;top:0;height:100px;width:100px">
+    <p>Top right
+  </div>
+  <div style="position:absolute;left:0;bottom:0;height:100px;width:100px">
+    <p>Bottom left
+  </div>
+</div>
+</div>
+
+
 <div>
-<script>document.write('<textarea id="source">' + document.getElementById('example').innerHTML + '</textarea>')</script>
-<script>document.write('<textarea id="output">' + document.getElementById('example').innerText + '</textarea>')</script>
+<script>document.write('<textarea id="source">' + document.getElementById('test2').innerHTML + '</textarea>')</script>
+<script>document.write('<textarea id="output">' + document.getElementById('test2').innerText + '</textarea>')</script>
 </div>
