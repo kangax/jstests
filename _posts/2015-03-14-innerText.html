@@ -3,13 +3,19 @@ title: innerText
 ---
 
 <style>
+  * {
+    box-sizing: border-box;
+  }
+  #source {
+    font-size: 12px;
+  }
   textarea {
     display: inline-block;
     vertical-align: top;
-    width: 500px;
-    height: 1000px;
-    font-size: 15px;
+    width: 49%;
+    height: 100%;
     font-family: "Courier New", "Courier", monospace;
+    font-size: 15px;
   }
   .hidden {
     visibility: hidden;
@@ -44,10 +50,10 @@ title: innerText
 </p>
 <!-- <p>This should not show (comment).</p>-->
 <p>
-  This is text before<span style="display:block;">a span
+  This is text before<span style="display:block">a span
               with display:block.</span>...and after.
 </p>
-<p id="preNode" style="white-space:pre;">
+<p id="preNode" style="white-space:pre">
 This      text
   is white-space:pre
 text.
@@ -66,10 +72,17 @@ text.
   And a triple&nbsp;&nbsp;&nbsp;nbsp's
 </p>
 
+<p style="text-transform: uppercase">This text is uppercased</p>
+
 <style type="text/css">body { color: red }</style>
 
 <link rel="stylesheet" type="text/css" href="some.css">
+
+<select>
+  <option>option 1
+  <optio>option 2
+</select>
 </div>
 
-<script>document.write('<textarea>' + document.getElementById('example').innerHTML + '</textarea>')</script>
-<script>document.write('<textarea>' + document.getElementById('example').innerText + '</textarea>')</script>
+<script>document.write('<textarea id="source">' + document.getElementById('example').innerHTML + '</textarea>')</script>
+<script>document.write('<textarea id="output">' + document.getElementById('example').innerText + '</textarea>')</script>
