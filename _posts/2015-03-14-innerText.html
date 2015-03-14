@@ -7,7 +7,9 @@ title: innerText
     display: inline-block;
     vertical-align: top;
     width: 500px;
-    height: 500px;
+    height: 1000px;
+    font-size: 15px;
+    font-family: "Courier New", "Courier", monospace;
   }
   .hidden {
     visibility: hidden;
@@ -15,54 +17,58 @@ title: innerText
 </style>
 
 <div id="example" style="position: absolute; top: 0; left: -9999px">
-  <table>
-    <tr>
-      <td>TL</td>
-      <td>TR</td>
-    </tr>
-    <tr>
-      <td>BL</td>
-      <td>BR</td>
-    </tr>
-  </table>
-  <p>
-    Start a paragraph, <span>then a span</span> end para.
-  </p>
-  <p>
-    New Para then    4 spaces, then a line<br>break.
-  </p>
-  <p style="display:none">
-    This should not show (display:none).
-  </p>
-  <p style="visibility:hidden">
-    This should not show (visibility:hidden in style).
-  </p>
-
-  <p style="visibility:hidden">
-    This should not show (visibility:hidden in stylesheet).
-  </p>
-
-  <!-- <p>This should not show (comment).</p>-->
-  <p>
-    This is text before<span style="display:block;">a span
-                with display:block.</span>...and after.
-  </p>
-  <p id="preNode" style="white-space:pre;">
+<table>
+  <tr>
+    <td>TL</td>
+    <td>TR</td>
+  </tr>
+  <tr>
+    <td>BL</td>
+    <td>BR</td>
+  </tr>
+</table>
+<p>
+  Start a paragraph, <span>then a span</span> end para.
+</p>
+<p>
+  New Para then    4 spaces, then a line<br>break.
+</p>
+<p style="display:none">
+  This should not show (display:none).
+</p>
+<p style="visibility:hidden">
+  This should not show (visibility:hidden in style).
+</p>
+<p style="visibility:hidden">
+  This should not show (visibility:hidden in stylesheet).
+</p>
+<!-- <p>This should not show (comment).</p>-->
+<p>
+  This is text before<span style="display:block;">a span
+              with display:block.</span>...and after.
+</p>
+<p id="preNode" style="white-space:pre;">
 This      text
-    is pre
-  text.
-  </p>
-  <script>var a = "Mike"</script>
-  <ul>
-    <li>one bullet</li>
-    <li>two bullet</li>
-    <li>three bullet</li>
-  </ul>
-  And this is a<br><br><br>triple br
+  is white-space:pre
+text.
+</p>
+<script>var a = "Mike"</script>
+<ul>
+  <li>one bullet</li>
+  <li>two bullet</li>
+  <li>three bullet</li>
+</ul>
 
-  <style type="text/css">body { color: red }</style>
+<br>
+<p>The following are triple<br><br><br>br's</p>
 
-  <link rel="stylesheet" type="text/css" href="some.css">
+<p>
+  And a triple&nbsp;&nbsp;&nbsp;nbsp's
+</p>
+
+<style type="text/css">body { color: red }</style>
+
+<link rel="stylesheet" type="text/css" href="some.css">
 </div>
 
 <script>document.write('<textarea>' + document.getElementById('example').innerHTML + '</textarea>')</script>
