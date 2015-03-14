@@ -121,7 +121,7 @@ title: innerText
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Preserves uppercased text</td>
+    <td>Preserves upper/lower -cased text</td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="no">No</td>
@@ -182,6 +182,15 @@ title: innerText
   This is text before<span style="display:block">a span
               with display:block.</span>...and after.
 </p>
+
+<div style="display: inline">display:inline</div>
+<div style="display: inline">display:inline</div>
+
+<div style="display: table">
+  <span style="display: table-cell">table-cell</span>
+  <span style="display: table-cell">table-cell</span>
+</div>
+
 <p id="preNode" style="white-space:pre">
 This      text
   is white-space:pre
@@ -219,6 +228,7 @@ text.
   <option>option 1
   <optio>option 2
 </select>
+
 </div>
 
 <div id="test2" contenteditable style="position: absolute; top: 0; left: -9999px">
@@ -297,6 +307,8 @@ Also
   <li> List
   </ol>
 
+  <div> space test </div>
+
   <p>Let's <span style="display:block">test </span>anonymous blocks!
 
   <table border=1>
@@ -323,6 +335,6 @@ Also
 
 
 <div>
-<script>document.write('<textarea id="source">' + document.getElementById('test2').innerHTML + '</textarea>')</script>
-<script>document.write('<textarea id="output">' + document.getElementById('test2').innerText + '</textarea>')</script>
+<script>document.write('<textarea id="source">' + document.getElementById('test1').innerHTML + '</textarea>')</script>
+<script>document.write('<textarea id="output">' + document.getElementById('test1').innerText + '</textarea>')</script>
 </div>
