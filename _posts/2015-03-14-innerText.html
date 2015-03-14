@@ -21,7 +21,112 @@ title: innerText
   .hidden {
     visibility: hidden;
   }
+  table { border-spacing: 0; border-collapse: collapse; margin-bottom: 20px }
+  td { border: 1px solid #ccc; padding: 0.5em 1em; font-family: 'Open Sans', sans-serif; font-size: 0.8em }
+  .yes { background: #6BBE41; color: #fff; }
+  .no { background: #4444AC; color: #fff; }
 </style>
+
+
+
+
+
+<table>
+  <tr>
+    <td></td>
+    <td>IE8</td>
+    <td>IE9</td>
+    <td>IE10</td>
+    <td>IE11</td>
+    <td>WebKit/Chrome</td>
+  </tr>
+  <tr>
+    <td>Includes display:none elements</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Includes visibility:hidden elements</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Includes &lt;select&gt; contents</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Includes &lt;script&gt; contents</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Includes &lt;style&gt; contents</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Preserves uppercased text</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Puts spaces between &lt;td&gt; tags</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Puts 2x newline between paragraphs</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Creates newline around block-styled elements</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Respects white-space:pre</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+
+</table>
+
+
+
+
+
 
 <div id="example" style="position: absolute; top: 0; left: -9999px">
 <table>
@@ -32,6 +137,16 @@ title: innerText
   <tr>
     <td>BL</td>
     <td>BR</td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td>table 2</td>
+    <td>x</td>
+  </tr>
+  <tr>
+    <td>x</td>
+    <td>x</td>
   </tr>
 </table>
 <p>
@@ -67,6 +182,12 @@ text.
   <li>three bullet</li>
 </ul>
 
+<ol>
+  <li>ordered 1</li>
+  <li>ordered 2</li>
+  <li>ordered 3</li>
+</ol>
+
 <br>
 <p>The following are triple<br><br><br>br's</p>
 
@@ -77,7 +198,7 @@ text.
 <p style="text-transform: uppercase">This text is uppercased</p>
 <p><i>some</i> <del>more</del> <b>formatting</b></p>
 
-<style type="text/css">body { color: red }</style>
+<style type="text/css">body { color: #333 }</style>
 
 <link rel="stylesheet" type="text/css" href="some.css">
 
@@ -87,5 +208,7 @@ text.
 </select>
 </div>
 
+<div>
 <script>document.write('<textarea id="source">' + document.getElementById('example').innerHTML + '</textarea>')</script>
 <script>document.write('<textarea id="output">' + document.getElementById('example').innerText + '</textarea>')</script>
+</div>
