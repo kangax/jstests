@@ -21,13 +21,187 @@ title: innerText
   .hidden {
     visibility: hidden;
   }
-  table { border-spacing: 0; border-collapse: collapse; margin-bottom: 20px }
+  table { border-spacing: 0; border-collapse: collapse; margin-top: 20px }
   td { border: 1px solid #ccc; padding: 0.5em 1em; font-family: 'Open Sans', sans-serif; font-size: 0.8em }
   .yes { background: #6BBE41; color: #fff; }
   .no { background: #4444AC; color: #fff; }
+
+  .before::before {
+    content: 'Before content';
+  }
+  .after::after {
+    content: 'After content';
+  }
+  #test {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+  }
 </style>
 
 
+<div id="test">
+<p> He<strong>llo!</strong>
+
+<p>Hello <span>to you </span>too.
+
+<p style="display:none">Secret
+
+<div> </div>
+
+<hr>
+
+<p style="visibility:hidden">visibility:hidden <span style="visibility:visible">visibility:visible</span>
+
+<div><div><div> Triple nested div </div></div></div>
+
+<div style="margin:1em">Margined div</div>
+
+<table>
+  <tr><th>Stuff<th>More stuff <th>Even more stuff
+  <tr><td> Data  <td>More data <td>..
+  <tr><td>? <td> <td>Last cell was empty!
+  <tr><td><td><td>Last two cells empty
+</table>
+
+<pre> Preformatted </pre>
+
+<pre>
+Also
+pre
+   formatted
+</pre>
+
+<div style="white-space:pre"> white-space
+  pre</div>
+<div style="white-space:pre-line"> Pre-
+  line
+</div>
+<div style="white-space:nowrap"> No
+  wrap
+</div>
+<div style="white-space:pre-wrap"> Pre-
+  wrap
+</div>
+<div style="float:left"> Float left </div>
+<div> Normal div </div>
+<div style="float:right"> Float right </div>
+<div> Normal div </div>
+
+<div style="float:left"> Float left </div>
+<div style="clear:left"> Left-cleared div </div>
+
+An <table style="display:inline"> <tr><td>Inline <td>Table</table>.  Line
+break:
+
+<br>
+
+Two line breaks:<br><br>
+
+Three line breaks:<br><br><br>
+
+An <table style="display:inline"><tr><td>Inline <td>table<tr><td>with
+<td>multiple rows</table>.
+
+<p style="content: ' You should see this generated content \A'">You should not
+see this un-generated content
+
+<p class="before">Is there text before this?
+
+<p class="after">Is there text after this?
+
+<div style="width: 50px; overflow: hidden; text-overflow: ellipsis">text-overflow: ellipsis</div>
+
+<p style="text-transform:uppercase">Transformed to uppercase
+
+<p style="text-transform:lowercase">Transformed to lowercase
+
+<p style="text-transform:capitalize">Transformed to titlecase
+
+<ul>
+<li> Unordered
+<li> List
+</ul>
+
+<ol>
+<li> Ordered
+<li> List
+</ol>
+
+<div> this line has 1 leading and 1 trailing spaces </div>
+<p>
+  And here's    4 spaces
+</p>
+
+<p>
+  And a triple&nbsp;&nbsp;&nbsp;nbsp's
+</p>
+
+<p><i>some</i> <del>more</del> <b>formatting</b></p>
+
+<table border="1">
+<caption>Table caption</caption>
+<tr><td>Regular <td>old
+<tr><td>data <td>table
+</table>
+
+<table border="1">
+<caption>Table caption</caption>
+<tr><td><p>Table cell <p>with <p>paragraphs <td>Cell 2
+<tr><td>Next <td>row
+</table>
+
+<div style="position:relative;height:200px;width:200px">
+  <div style="position:absolute;right:0;top:0;height:100px;width:100px">
+    <p>Top right (absolute position)
+  </div>
+  <div style="position:absolute;left:0;bottom:0;height:100px;width:100px">
+    <p>Bottom left (absolute position)
+  </div>
+</div>
+
+<select>
+  <option>select option 1
+  <optio>select option 2
+</select>
+
+<link rel="stylesheet" type="text/css" href="some.css">
+
+<style type="text/css">body { color: #333; }</style>
+<style type="text/css">/* comment in a style */</style>
+
+<script>var x = 'this is a script content'</script>
+<script>/* comment in a script */</script>
+<script src="foo.js"></script>
+
+<!-- <p>This should not show (comment).</p>-->
+
+<unknown>&lt;unknown&gt; tags</unknown>
+
+<p>
+  This is text before<span style="display:block">a span
+              with display:block.</span>...and after.
+</p>
+
+<div style="display: inline">div w. display:inline</div>
+<div style="display: inline">div w. display:inline</div>
+
+<div style="display: table">
+  <div style="display: table-cell">div w. table-cell</div>
+  <div style="display: table-cell">div w. table-cell</div>
+</div>
+
+<img src="foo.png" alt="img alt value">
+
+<canvas width="10" height="10">fallback canvas content</canvas>
+</div>
+
+
+
+<div>
+<script>document.write('<textarea id="source">' + document.getElementById('test').innerHTML + '</textarea>')</script>
+<script>document.write('<textarea id="output">' + document.getElementById('test').innerText + '</textarea>')</script>
+</div>
 
 
 
@@ -89,15 +263,15 @@ title: innerText
     <td class="no">No</td>
   </tr>
   <tr>
-    <td>Creates newline around inline, block-styled elements</td>
+    <td>Preserves leading space in list items</td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
+    <td class="no">No</td>
   </tr>
   <tr>
-    <td>Respects white-space:pre</td>
+    <td>Creates newline around inline, block-styled elements</td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="yes">Yes</td>
@@ -113,7 +287,23 @@ title: innerText
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Puts spaces between &lt;td&gt; tags</td>
+    <td>Respects white-space:pre</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Creates (only) spaces between block, inline-styled elements</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Puts tabs between &lt;td&gt; tags</td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="no">No</td>
@@ -128,213 +318,4 @@ title: innerText
     <td class="no">No</td>
     <td class="yes">Yes</td>
   </tr>
-
 </table>
-
-
-
-
-
-
-<div id="test1" style="position: absolute; top: 0; left: -9999px">
-<div>div1</div>
-<div>div2</div>
-<table>
-  <tr>
-    <td>TL</td>
-    <td>TR</td>
-  </tr>
-  <tr>
-    <td>BL</td>
-    <td>BR</td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td>table 2</td>
-    <td>x</td>
-  </tr>
-  <tr>
-    <td>x</td>
-    <td>x</td>
-  </tr>
-</table>
-<p>
-  Start a paragraph, <span>then a span</span> end para.
-</p>
-<p>
-  New Para then    4 spaces, then a line<br>break.
-</p>
-<p style="display:none">
-  This should not show (display:none).
-</p>
-<p style="visibility:hidden">
-  This should not show (visibility:hidden in style).
-</p>
-<p style="visibility:hidden">
-  This should not show (visibility:hidden in stylesheet).
-</p>
-<p style="text-indent: -9999px">
-  This text has font-size: 0
-</p>
-<!-- <p>This should not show (comment).</p>-->
-<p>
-  This is text before<span style="display:block">a span
-              with display:block.</span>...and after.
-</p>
-
-<div style="display: inline">display:inline</div>
-<div style="display: inline">display:inline</div>
-
-<div style="display: table">
-  <span style="display: table-cell">table-cell</span>
-  <span style="display: table-cell">table-cell</span>
-</div>
-
-<p id="preNode" style="white-space:pre">
-This      text
-  is white-space:pre
-text.
-</p>
-<script>var foo = "this should not show (in the script)"</script>
-<script src="foo.js"></script>
-<ul>
-  <li>one bullet</li>
-  <li>two bullet</li>
-  <li>three bullet</li>
-</ul>
-
-<ol>
-  <li>ordered 1</li>
-  <li>ordered 2</li>
-  <li>ordered 3</li>
-</ol>
-
-<br>
-<p>The following are triple<br><br><br>br's</p>
-
-<p>
-  And a triple&nbsp;&nbsp;&nbsp;nbsp's
-</p>
-
-<p style="text-transform: uppercase">This text is uppercased</p>
-<p><i>some</i> <del>more</del> <b>formatting</b></p>
-
-<style type="text/css">body { color: #333 }</style>
-
-<link rel="stylesheet" type="text/css" href="some.css">
-
-<select>
-  <option>option 1
-  <optio>option 2
-</select>
-
-</div>
-
-<div id="test2" contenteditable style="position: absolute; top: 0; left: -9999px">
-  <p> He<strong>llo!</strong>
-  <p>Hello <span>to you </span>too.
-  <p style=display:none>Secret
-  <div> </div>
-  <hr>
-  <p style=visibility:hidden>Abc<span style=visibility:visible>def</span>
-  <script>//</script>
-  <div><div><div> Nesty </div></div></div>
-  <div style=margin:1em>Margined div</div>
-  <table>
-    <tr><th>Stuff<th>More stuff <th>Even more stuff
-    <tr><td> Data  <td>More data <td>..
-    <tr><td>? <td> <td>Last cell was empty!
-    <tr><td><td><td>Last two cells empty
-  </table>
-  <pre> Preformatted </pre>
-  <pre>
-Also
-  pre
-     formatted
-  </pre>
-  <div style=white-space:pre> Preformatted
-    div</div>
-  <div style=white-space:pre-line> Pre-
-    line
-  </div>
-  <div style=white-space:nowrap> No
-    wrap
-  </div>
-  <div style=white-space:pre-wrap> Pre-
-    wrap
-  </div>
-  <div style=float:left> Float left </div>
-  <div> Normal div </div>
-  <div style=float:right> Float right </div>
-  <div> Normal div </div>
-
-  <div style=float:left> Float left </div>
-  <div style=clear:left> Left-cleared div </div>
-
-  An <table style="display:inline"> <tr><td>Inline <td>Table</table>.  Line
-  break:
-
-  <br>
-
-  Two line breaks:<br><br>
-
-  Three line breaks:<br><br><br>
-
-  An <table style="display:inline"><tr><td>Inline <td>table<tr><td>with
-  <td>multiple rows</table>.
-
-  <p style="content: ' You should see this generated content \A'">You should not
-  see this un-generated content
-
-  <p class=before>Is there text before this?
-
-  <p class=after>Is there text after this?
-
-  <p style="text-transform:uppercase">Transformed to uppercase
-
-  <p style="text-transform:lowercase">Transformed to lowercase
-
-  <p style="text-transform:capitalize">Transformed to titlecase
-
-  <ul>
-  <li> Unordered
-  <li> List
-  </ul>
-
-  <ol>
-  <li> Ordered
-  <li> List
-  </ol>
-
-  <div> space test </div>
-
-  <p>Let's <span style="display:block">test </span>anonymous blocks!
-
-  <table border=1>
-  <caption>Table caption</caption>
-  <tr><td>Regular <td>old
-  <tr><td>data <td>table
-  </table>
-
-  <table border=1>
-  <caption>Table caption</caption>
-  <tr><td><p>Table cell <p>with <p>paragraphs <td>Cell 2
-  <tr><td>Next <td>row
-  </table>
-
-  <div style="position:relative;height:200px;width:200px">
-  <div style="position:absolute;right:0;top:0;height:100px;width:100px">
-    <p>Top right
-  </div>
-  <div style="position:absolute;left:0;bottom:0;height:100px;width:100px">
-    <p>Bottom left
-  </div>
-</div>
-</div>
-
-
-<div>
-<script>document.write('<textarea id="source">' + document.getElementById('test1').innerHTML + '</textarea>')</script>
-<script>document.write('<textarea id="output">' + document.getElementById('test1').innerText + '</textarea>')</script>
-</div>
