@@ -8,7 +8,7 @@
         var result = eval(expression);
       }
       catch(err) { }
-      document.write(result ? '<td class="yes">YES</td>' : '<td class="no">NO</td>');
+      document.write(result ? '<td class="yes">Yes</td>' : '<td class="no">No</td>');
       document.write('<td>' + expression + '</td>');
     }
     var context = document.createElement("canvas").getContext("2d");
@@ -16,9 +16,10 @@
   <style>
     body { color: #333; text-align: left; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; }
     table { border-spacing: 0; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-    td, th { padding: 5px 10px; border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-collapse: collapse; min-width: 100px; }
-    .yes { background: rgb(139, 184, 79); color: #fff; }
-    .no { background: #f88; color: #fff; }
+    td, th { padding: 5px 10px; border-top: 1px solid #ddd; border-left: 1px solid #ddd; border-collapse: collapse; min-width: 50px; }
+    .yes { background: rgb(139, 184, 79); color: #fff; text-align: center; }
+    .no { background: #f88; color: #fff; text-align: center; }
+    .flag { background: #88f; color: #fff; text-align: center; }
     a { color: blue; }
     td:nth-child(4) { font-family: monospace; }
   </style>
@@ -31,52 +32,100 @@
         <th>Test</th>
         <th>Result</th>
         <th>Code</th>
+        <th>CH 40</th>
+        <th>FF 39</th>
+        <th>WK</th>
+        <th>IETP</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Path</td>
         <script>test('typeof Path != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Ellipses</td>
         <script>test('typeof context.ellipse != "undefined"')</script>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Dashed lines</td>
         <script>test('typeof context.setLineDash != "undefined"')</script>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
       </tr>
       <tr>
         <td>Text on a path</td>
         <script>test('typeof (new Path).addText != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>DrawingStyle objects</td>
         <script>test('typeof DrawingStyle != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Hit testing</td>
         <script>test('typeof context.addHitRegion != "undefined"')</script>
+        <td class="flag">Flag</td>
+        <td class="flag">Flag</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Path addition</td>
         <script>test('typeof (new Path).addPath != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Additional measureText metrics</td>
         <script>test('typeof context.measureText("foo").actualBoundingBoxLeft != "undefined"')</script>
+        <td class="flag">Flag</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Pattern transform</td>
         <script>test('typeof context.createPattern(new Image, "repeat").setTransform != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Reset clip region</td>
         <script>test('typeof context.resetClip != "undefined"')</script>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
       <tr>
         <td>Reset transform</td>
         <script>test('typeof context.resetTransform != "undefined"')</script>
+        <td class="yes">Yes</td>
+        <td class="yes">Yes</td>
+        <td class="no">No</td>
+        <td class="no">No</td>
       </tr>
     </tbody>
   </table>
