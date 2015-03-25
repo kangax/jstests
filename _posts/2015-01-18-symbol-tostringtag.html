@@ -1,0 +1,18 @@
+---
+title: Symbol.toStringTag
+---
+
+<script>
+  for (var prop in window) {
+    if (!window[prop]) continue;
+
+    window[prop][Symbol.toStringTag] = 'foo';
+    document.write('<p>' + prop + ': ' + Object.prototype.toString.call(window[prop]) + '</p>');
+  }
+  for (var prop in window.__proto__) {
+    if (!window[prop]) continue;
+
+    window[prop][Symbol.toStringTag] = 'foo';
+    document.write('<p>' + prop + ': ' + Object.prototype.toString.call(window[prop]) + '</p>');
+  }
+</script>
